@@ -14,18 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        window.kitQRZAP = {
-            empresa,
-            telefone,
-            mensagem
-        };
+        const linkWhatsApp =
+            "https://wa.me/" +
+            telefone +
+            "?text=" +
+            encodeURIComponent(mensagem);
 
-        preview.innerHTML = `
-            <h3>Dados registrados</h3>
-            <p><strong>Empresa:</strong> ${empresa}</p>
-            <p><strong>WhatsApp:</strong> ${telefone}</p>
-            <p>Pronto para gerar o QR Code.</p>
-        `;
+        preview.innerHTML = "";
+
+        new QRCode(preview, {
+            text: linkWhatsApp,
+            width: 220,
+            height: 220
+        });
+
     });
 
 });
