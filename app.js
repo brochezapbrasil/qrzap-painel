@@ -47,24 +47,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.font = "22px Arial";
       ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, canvas.height * 0.45);
       const hoje = new Date().toLocaleDateString("pt-BR");
-      ctx.font = "18px Arial";
-      ctx.fillText("Emitido em: " + hoje, canvas.width / 2, canvas.height * 0.485);
-    };
-    img.src = "certificado-base.png";
-  }
+      ctx.fillStyle = "#4b1f9c";
+ctx.font = "bold 38px 'Brush Script MT', cursive";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
 
-  function getQrDataUrl() {
-    const c = document.querySelector("#qrCode canvas");
-    if (c) return c.toDataURL("image/png");
-    const i = document.querySelector("#qrCode img");
-    if (i) return i.src;
-    return null;
-  }
+ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.405);
 
-  function baixar(nome, dataUrl) {
-    const a = document.createElement("a");
-    a.download = nome;
-    a.href = dataUrl;
+ctx.restore();
     a.click();
   }
 
