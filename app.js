@@ -51,15 +51,20 @@ ctx.font = "bold 48px Arial";
 ctx.textAlign = "center";
 ctx.textBaseline = "middle";
 
-ctx.fillText("TESTE", canvas.width / 2, 385);
+ctx.fillText(empresa, canvas.width / 2, 395);
 
 ctx.restore();
-    ctx.font = "24px Arial";
-    ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, 355);
 
-    const hoje = new Date().toLocaleDateString("pt-BR");
+ctx.fillStyle = "#2f195f";
+ctx.textAlign = "center";
 
-    ctx.fillText("Emitido em: " + hoje, canvas.width / 2, 390);
+ctx.font = "24px Arial";
+ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, 435);
+
+const hoje = new Date().toLocaleDateString("pt-BR");
+
+ctx.fillText("Emitido em: " + hoje, canvas.width / 2, 470);
+    
 
     document.getElementById("certificadoSection").style.display = "block";
 };
