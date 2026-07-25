@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
       new QRCode(qrDiv, {
         text: link,
         width: 150,
-        height: 150,
+        height: 100,
         correctLevel: QRCode.CorrectLevel.H
       });
     }
