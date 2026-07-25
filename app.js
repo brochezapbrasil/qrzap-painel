@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const botao = document.getElementById("gerarKit");
-    const preview = document.getElementById("previewQR");
 
     botao.addEventListener("click", () => {
 
@@ -14,47 +13,89 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const linkWhatsApp =
+        const link =
             "https://wa.me/" +
             telefone +
             "?text=" +
             encodeURIComponent(mensagem);
 
-        document.getElementById("empresaPreview").textContent = empresa;
+        const qr = document.getElementById("qrCode");
 
-document.getElementById("telefonePreview").textContent =
-"WhatsApp: +" + telefone;
-document.getElementById("empresaPreview").style.display = "block";
-document.getElementById("telefonePreview").style.display = "block";
-document.querySelector(".acoesQR").style.display = "block";
-document.getElementById("qrCode").style.display = "block";
-const qr = document.getElementById("qrCode");
+        qr.innerHTML = "";
 
-qr.innerHTML = "";
-
-new QRCode(qr, {
-            text: linkWhatsApp,
+        new QRCode(qr, {
+            text: link,
             width: 220,
             height: 220
         });
 
-    document.getElementById("baixarQR").onclick = () => {
-    const img = document.querySelector("#qrCode img") || document.querySelector("#qrCode canvas");
+        document.getElementById("empresaPreview").textContent = empresa;
+        document.getElementById("telefonePreview").textContent =
+            "WhatsApp: +" + telefone;
+    });
 
-if (!img) return;
+    document.getElementById("baixarQR").addEventListener("click", () => {
 
-const link = document.createElement("a");
-link.download = "QR-ZAP.png";
-if (img.tagName === "CANVAS") {
-    link.href = img.toDataURL("image/png");
-} else {
-    link.href = img.src;
-}
-link.click();
-    };
+        const canvas = document.querySelector("#qrCode canvas");
+        const img = document.querySelector("#qrCode img");
 
-    document.getElementById("imprimirQR").onclick = () => {
-        window.print();
-    };
+        if (canvas) {
+
+            const link = document.createElement("a");
+            link.download = "QR-ZAP.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+
+        } else if (img) {
+
+            const link = document.createElement("a");
+            link.download = "QR-ZAP.png";
+            link.href = img.src;
+            link.click();
+
+        } else {
+
+            alert("Gere o QR primeiro.");
+
+        }
+
+    });
+
+    document.getElementById("imprimirQR").addEventListener("click", () => {
+
+        const conteudo = document.getElementById("qrCode").innerHTML;
+
+        if (!conteudo) {
+            alert("Gere o QR primeiro.");
+            return;
+        }
+
+        const janela = window.open("", "_blank");
+
+        janela.document.write(`
+            <html>
+            <head>
+                <title>Imprimir QR</title>
+                <style>
+                    body{
+                        display:flex;
+                        justify-content:center;
+                        align-items:center;
+                        height:100vh;
+                        margin:0;
+                    }
+                </style>
+            </head>
+            <body>
+                ${conteudo}
+            </body>
+            </html>
+        `);
+
+        janela.document.close();
+        janela.focus();
+        janela.print();
+
+    });
 
 });
