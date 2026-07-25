@@ -33,7 +33,23 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("telefonePreview").textContent =
             "WhatsApp: +" + telefone;
     });
+const canvas = document.getElementById("certificadoCanvas");
+const ctx = canvas.getContext("2d");
 
+const certificado = new Image();
+
+certificado.onload = () => {
+
+    canvas.width = certificado.width;
+    canvas.height = certificado.height;
+
+    ctx.drawImage(certificado, 0, 0);
+
+    document.getElementById("certificadoSection").style.display = "block";
+
+};
+
+certificado.src = "certificado-base.png";
     document.getElementById("baixarQR").addEventListener("click", () => {
 
         const canvas = document.querySelector("#qrCode canvas");
