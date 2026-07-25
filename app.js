@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
       qrDiv.innerHTML = "";
       new QRCode(qrDiv, {
         text: link,
-        width: 150,
-        height: 250,
+        width: 200,
+        height: 200,
         correctLevel: QRCode.CorrectLevel.H
       });
     }
@@ -48,8 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.drawImage(img, 0, 0);
 
       // 1. apaga o "Nome da Empresa" da imagem base
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(canvas.width * 0.15, canvas.height * 0.36, canvas.width * 0.70, canvas.height * 0.12);
+        ctx.fillStyle = "#ffffff";
+  ctx.fillRect(canvas.width * 0.18, canvas.height * 0.385, canvas.width * 0.64, canvas.height * 0.06);
 
       // 2. escreve o nome GRANDE no lugar certo
       ctx.save();
