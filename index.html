@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QR ZAP - Painel</title>
+
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
+
+</head>
+
+<body>
+
+<header class="topo">
+    <h1>QR ZAP</h1>
+    <p>Painel Administrativo</p>
+</header>
+
+<main class="container">
+
+<section class="card">
+
+<h2>Dados da Empresa</h2>
+
+<label for="empresa">Nome da Empresa</label>
+<input
+id="empresa"
+type="text"
+placeholder="Ex.: Farmácia Central">
+
+<label for="telefone">WhatsApp</label>
+<input
+id="telefone"
+type="tel"
+placeholder="5518999999999">
+
+<label for="mensagem">Mensagem de acolhimento</label>
+
+<textarea
+id="mensagem"
+placeholder="Olá! Estou neste estabelecimento e prefiro me comunicar por mensagem."></textarea>
+
+<button id="gerarKit">
+Gerar Kit
+</button>
+
+</section>
+
+<section class="card">
+
+<h2>Pré-visualização</h2>
+
+<div id="previewQR">
+O QR Code aparecerá aqui.
+</div>
+
+</section>
+
+</main>
+
+</body>
+</html>
