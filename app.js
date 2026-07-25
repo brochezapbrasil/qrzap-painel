@@ -45,7 +45,10 @@ certificado.onload = () => {
 console.log("Altura:", canvas.height);
 
     ctx.drawImage(certificado, 0, 0);
-
+console.log(canvas.width);
+console.log(canvas.height);
+console.log(certificado.width);
+console.log(certificado.height);
     ctx.save();
 
 ctx.fillStyle = "#ff0000";
