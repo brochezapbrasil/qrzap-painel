@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.addEventListener("click", () => {
     const empresa = document.getElementById("empresa")?.value.trim() || "";
     const telefoneRaw = document.getElementById("telefone")?.value.trim() || "";
-    const telefone = telefoneRaw.replace(/\D/g, ""); // deixa só números, resolve o ++
+    const telefone = telefoneRaw.replace(/\D/g, "");
     const mensagem = document.getElementById("mensagem")?.value.trim() || "";
 
     if (!empresa || !telefone || !mensagem) {
@@ -22,8 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
         text: link,
         width: 200,
         height: 200,
+        colorDark: "#1659b8",
+        colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
+      const c = qrDiv.querySelector("canvas");
+      if (c) {
+        c.style.display = "block";
+        c.style.margin = "10px auto";
+        c.style.maxWidth = "100%";
+      }
     }
 
     const empPrev = document.getElementById("empresaPreview");
@@ -32,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (telPrev) telPrev.textContent = "WhatsApp: +" + telefone;
 
     gerarCertificado(empresa);
+    setTimeout(() => gerarQrAzul(), 500);
 
     const sec = document.getElementById("certificadoSection");
     if (sec) sec.style.display = "block";
@@ -46,18 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
-
-      // 1. apaga o "Nome da Empresa" da imagem base
-        ctx.fillStyle = "#ffffff";
-  ctx.fillRect(canvas.width * 0.18, canvas.height * 0.385, canvas.width * 0.64, canvas.height * 0.06);
-
-      // 2. escreve o nome GRANDE no lugar certo
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(canvas.width * 0.18, canvas.height * 0.385, canvas.width * 0.64, canvas.height * 0.06);
       ctx.save();
       ctx.fillStyle = "#4b1f9c";
-      ctx.font = "bold 78px 'Brush Script MT', cursive";
+      ctx.font = "bold 68px 'Brush Script MT', cursive";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
+      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.415);
       ctx.restore();
     };
     img.src = "certificado-base.png";
@@ -108,4 +113,45 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!c || c.width === 0) return alert("Gere primeiro");
     imprimirDataUrl(c.toDataURL("image/png"));
   });
+
+  // ============================================
+  // MÓDULO NOVO: QR AZUL OFICIAL - ADIÇÃO
+  // ============================================
+  function getQrDataUrlAzul() {
+    return getQrDataUrl();
+  }
+
+  function gerarQrAzul() {
+    const canvas = document.getElementById("qrAzulCanvas");
+    const section = document.getElementById("qrAzulSection");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const base = new Image();
+    base.onload = () => {
+      canvas.width = base.width;
+      canvas.height = base.height;
+      ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
+      const qrSize = canvas.width * 0.485;
+      const qrX = (canvas.width - qrSize) / 2;
+      const qrY = (canvas.height - qrSize) / 2 - (canvas.height * 0.018);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(qrX, qrY, qrSize, qrSize);
+      const qrDataUrl = getQrDataUrlAzul();
+      if (!qrDataUrl) return;
+      const qrImg = new Image();
+      qrImg.onload = () => {
+        ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+        if (section) section.style.display = "block";
+      };
+      qrImg.src = qrDataUrl;
+    };
+    base.src = "qr-azul-base.png";
+  }
+
+  document.getElementById("baixarQrAzul")?.addEventListener("click", () => {
+    const c = document.getElementById("qrAzulCanvas");
+    if (!c || c.width === 0) return alert("Gere primeiro");
+    baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png"));
+  });
+  // FIM MÓDULO NOVO
 });
