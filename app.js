@@ -44,12 +44,16 @@ certificado.onload = () => {
 
     ctx.drawImage(certificado, 0, 0);
 
-    ctx.fillStyle = "#2f195f";
-    ctx.textAlign = "center";
+    ctx.save();
 
-    ctx.font = "bold 42px Arial";
-    ctx.fillText(empresa, canvas.width / 2, 305);
+ctx.fillStyle = "#ff0000";
+ctx.font = "bold 48px Arial";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
 
+ctx.fillText("TESTE", canvas.width / 2, 305);
+
+ctx.restore();
     ctx.font = "24px Arial";
     ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, 355);
 
