@@ -104,4 +104,39 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!c || c.width === 0) return alert("Gere primeiro");
     imprimirDataUrl(c.toDataURL("image/png"));
   });
+    // --- MÓDULO QR AZUL OFICIAL - NÃO ALTERA NADA ACIMA ---
+  function gerarQrAzul() {
+    try {
+      const canvas = document.getElementById("qrAzulCanvas");
+      const section = document.getElementById("qrAzulSection");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const base = new Image();
+      base.onload = () => {
+        canvas.width = base.width;
+        canvas.height = base.height;
+        ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
+        const qrSize = canvas.width * 0.36; // TAMANHO CERTO DA FOTO
+        const qrX = (canvas.width - qrSize) / 2;
+        const qrY = (canvas.height - qrSize) / 2 - (canvas.height * 0.01);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(qrX, qrY, qrSize, qrSize);
+        const qrDataUrl = getQrDataUrl();
+        if (!qrDataUrl) return;
+        const qrImg = new Image();
+        qrImg.onload = () => {
+          ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+          if (section) section.style.display = "block";
+        };
+        qrImg.src = qrDataUrl;
+      };
+      base.src = "qr-azul-base.png";
+    } catch(e){ console.log(e); }
+  }
+
+  document.getElementById("baixarQrAzul")?.addEventListener("click", () => {
+    const c = document.getElementById("qrAzulCanvas");
+    if (!c || c.width === 0) return alert("Gere primeiro");
+    baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png"));
+  });
 });
