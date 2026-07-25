@@ -32,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("empresaPreview").textContent = empresa;
         document.getElementById("telefonePreview").textContent =
             "WhatsApp: +" + telefone;
-    });
-const canvas = document.getElementById("certificadoCanvas");
+        const canvas = document.getElementById("certificadoCanvas");
 const ctx = canvas.getContext("2d");
 
 const certificado = new Image();
@@ -44,25 +43,26 @@ certificado.onload = () => {
     canvas.height = certificado.height;
 
     ctx.drawImage(certificado, 0, 0);
-ctx.fillStyle = "#2f195f";
-ctx.textAlign = "center";
 
-ctx.font = "bold 42px Arial";
-ctx.fillText(empresa, canvas.width / 2, 305);
+    ctx.fillStyle = "#2f195f";
+    ctx.textAlign = "center";
 
-ctx.font = "24px Arial";
-ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, 355);
+    ctx.font = "bold 42px Arial";
+    ctx.fillText(empresa, canvas.width / 2, 305);
 
-const hoje = new Date().toLocaleDateString("pt-BR");
+    ctx.font = "24px Arial";
+    ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, 355);
 
-ctx.fillText("Emitido em: " + hoje, canvas.width / 2, 390);
+    const hoje = new Date().toLocaleDateString("pt-BR");
+
+    ctx.fillText("Emitido em: " + hoje, canvas.width / 2, 390);
+
     document.getElementById("certificadoSection").style.display = "block";
-
 };
 
 certificado.src = "certificado-base.png";
-    document.getElementById("baixarQR").addEventListener("click", () => {
-
+    });
+document.getElementById("baixarQR").addEventListener("click", () => {
         const canvas = document.querySelector("#qrCode canvas");
         const img = document.querySelector("#qrCode img");
 
