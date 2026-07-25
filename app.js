@@ -40,7 +40,8 @@ const certificado = new Image();
 certificado.onload = () => {
 
     canvas.width = certificado.width;
-    canvas.height = certificado.height;
+    console.log("Largura:", canvas.width);
+console.log("Altura:", canvas.height);
 
     ctx.drawImage(certificado, 0, 0);
 
