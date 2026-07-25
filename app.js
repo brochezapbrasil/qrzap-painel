@@ -20,9 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
             "?text=" +
             encodeURIComponent(mensagem);
 
-        preview.innerHTML = "";
+        document.getElementById("empresaPreview").textContent = empresa;
 
-        new QRCode(preview, {
+document.getElementById("telefonePreview").textContent =
+"WhatsApp: +" + telefone;
+
+const qr = document.getElementById("qrCode");
+
+qr.innerHTML = "";
+
+new QRCode(qr, {
             text: linkWhatsApp,
             width: 220,
             height: 220
