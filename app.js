@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btn.addEventListener("click", () => {
     const empresa = document.getElementById("empresa")?.value.trim() || "";
-    const telefone = document.getElementById("telefone")?.value.trim() || "";
+    const telefoneRaw = document.getElementById("telefone")?.value.trim() || "";
+    const telefone = telefoneRaw.replace(/\D/g, ""); // deixa só números, resolve o ++
     const mensagem = document.getElementById("mensagem")?.value.trim() || "";
 
     if (!empresa || !telefone || !mensagem) {
@@ -14,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
     
-    // QR - limpa e gera
     const qrDiv = document.getElementById("qrCode");
     if (qrDiv) {
       qrDiv.innerHTML = "";
@@ -26,20 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Previews opcionais - não quebra se não existir
     const empPrev = document.getElementById("empresaPreview");
     if (empPrev) empPrev.textContent = empresa;
     const telPrev = document.getElementById("telefonePreview");
     if (telPrev) telPrev.textContent = "WhatsApp: +" + telefone;
 
-    // Certificado
     gerarCertificado(empresa);
 
-    // Mostra seção
     const sec = document.getElementById("certificadoSection");
     if (sec) sec.style.display = "block";
-    const pre = document.getElementById("previewSection");
-    if (pre) pre.style.display = "block";
   });
 
   function gerarCertificado(empresa) {
@@ -51,13 +46,18 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
+
+      // 1. apaga o "Nome da Empresa" da imagem base
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(canvas.width * 0.15, canvas.height * 0.36, canvas.width * 0.70, canvas.height * 0.12);
+
+      // 2. escreve o nome GRANDE no lugar certo
       ctx.save();
       ctx.fillStyle = "#4b1f9c";
-      ctx.font = "bold 34px 'Brush Script MT', cursive";
+      ctx.font = "bold 78px 'Brush Script MT', cursive";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      // posição 0.385 = bem no meio da linha, sem sobrepor
-      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.385);
+      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
       ctx.restore();
     };
     img.src = "certificado-base.png";
