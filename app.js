@@ -44,7 +44,18 @@ certificado.onload = () => {
     canvas.height = certificado.height;
 
     ctx.drawImage(certificado, 0, 0);
+ctx.fillStyle = "#222";
+ctx.font = "bold 60px Arial";
+ctx.textAlign = "center";
 
+ctx.fillText(empresa, canvas.width / 2, 540);
+
+ctx.font = "38px Arial";
+ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, 610);
+
+const hoje = new Date().toLocaleDateString("pt-BR");
+
+ctx.fillText("Emitido em: " + hoje, canvas.width / 2, 680);
     document.getElementById("certificadoSection").style.display = "block";
 
 };
