@@ -8,7 +8,9 @@
 <title>QR ZAP - Painel</title>
 
 <link rel="stylesheet" href="style.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script defer src="app.js"></script>
 
 </head>
@@ -26,22 +28,21 @@
 
 <h2>Dados da Empresa</h2>
 
-<label for="empresa">Nome da Empresa</label>
+<label>Nome da Empresa</label>
 <input
 id="empresa"
 type="text"
 placeholder="Ex.: Farmácia Central">
 
-<label for="telefone">WhatsApp</label>
+<label>WhatsApp</label>
 <input
 id="telefone"
 type="tel"
 placeholder="5518999999999">
 
-<label for="mensagem">Mensagem de acolhimento</label>
+<label>Mensagem de acolhimento</label>
 
 <textarea id="mensagem">Olá! Estou neste estabelecimento e prefiro me comunicar por mensagem. Por favor, responda por este chat para que possamos conversar. Obrigado(a)!</textarea>
-
 
 <button id="gerarKit">
 Gerar Kit
@@ -52,23 +53,29 @@ Gerar Kit
 <section class="card">
 
 <h2>Pré-visualização</h2>
+
 <div id="previewQR">
 
-    <h3 id="empresaPreview"></h3>
+<div id="qrCode"></div>
 
-    <p id="telefonePreview"></p>
+<h3 id="empresaPreview"></h3>
 
-    <div id="qrCode"></div>
+<p id="telefonePreview"></p>
 
-    <div class="acoesQR">
-        <button id="baixarQR">📥 Baixar QR</button>
-        <button id="imprimirQR">🖨️ Imprimir QR</button>
-    </div>
+<div class="acoesQR">
+
+<button id="baixarQR" type="button">
+📥 Baixar QR
+</button>
+
+<button id="imprimirQR" type="button">
+🖨️ Imprimir QR
+</button>
 
 </div>
 
-    
 </div>
+
 </section>
 
 </main>
