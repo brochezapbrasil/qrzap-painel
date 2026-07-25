@@ -105,3 +105,15 @@ button:hover{
 .acoesQR button{
     margin-top:12px;
 }
+#certificadoSection{
+    margin-top:20px;
+    text-align:center;
+}
+
+#certificadoCanvas{
+    width:100%;
+    max-width:700px;
+    height:auto;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
