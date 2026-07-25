@@ -24,7 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("telefonePreview").textContent =
 "WhatsApp: +" + telefone;
-
+document.getElementById("empresaPreview").style.display = "block";
+document.getElementById("telefonePreview").style.display = "block";
+document.querySelector(".acoesQR").style.display = "block";
+document.getElementById("qrCode").style.display = "block";
 const qr = document.getElementById("qrCode");
 
 qr.innerHTML = "";
