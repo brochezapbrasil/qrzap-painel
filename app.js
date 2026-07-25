@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
         text: link,
         width: 200,
         height: 200,
-        colorDark: "#1659b8",
-        colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
     }
@@ -34,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (telPrev) telPrev.textContent = "WhatsApp: +" + telefone;
 
     gerarCertificado(empresa);
-    setTimeout(() => gerarQrAzul(), 600);
 
     const sec = document.getElementById("certificadoSection");
     if (sec) sec.style.display = "block";
@@ -53,10 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillRect(canvas.width * 0.18, canvas.height * 0.385, canvas.width * 0.64, canvas.height * 0.06);
       ctx.save();
       ctx.fillStyle = "#4b1f9c";
-      ctx.font = "bold 68px 'Brush Script MT', cursive";
+      ctx.font = "bold 78px 'Brush Script MT', cursive";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.415);
+      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
       ctx.restore();
     };
     img.src = "certificado-base.png";
@@ -102,39 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     baixar("CERTIFICADO.png", c.toDataURL("image/png"));
   });
 
-  // --- MÓDULO NOVO: QR AZUL (não altera nada acima) ---
-  function gerarQrAzul() {
-    try {
-      const canvas = document.getElementById("qrAzulCanvas");
-      const section = document.getElementById("qrAzulSection");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      const base = new Image();
-      base.onload = () => {
-        canvas.width = base.width;
-        canvas.height = base.height;
-        ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
-        const qrSize = canvas.width * 0.36;
-        const qrX = (canvas.width - qrSize) / 2;
-        const qrY = (canvas.height - qrSize) / 2 - (canvas.height * 0.01);
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(qrX, qrY, qrSize, qrSize);
-        const qrDataUrl = getQrDataUrl();
-        if (!qrDataUrl) return;
-        const qrImg = new Image();
-        qrImg.onload = () => {
-          ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
-          if (section) section.style.display = "block";
-        };
-        qrImg.src = qrDataUrl;
-      };
-      base.src = "qr-azul-base.png";
-    } catch(e){ console.log(e); }
-  }
-
-  document.getElementById("baixarQrAzul")?.addEventListener("click", () => {
-    const c = document.getElementById("qrAzulCanvas");
+  document.getElementById("imprimirCertificado")?.addEventListener("click", () => {
+    const c = document.getElementById("certificadoCanvas");
     if (!c || c.width === 0) return alert("Gere primeiro");
-    baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png"));
+    imprimirDataUrl(c.toDataURL("image/png"));
   });
 });
