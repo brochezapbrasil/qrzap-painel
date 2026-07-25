@@ -26,12 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
-      const c = qrDiv.querySelector("canvas");
-      if (c) {
-        c.style.display = "block";
-        c.style.margin = "10px auto";
-        c.style.maxWidth = "100%";
-      }
     }
 
     const empPrev = document.getElementById("empresaPreview");
@@ -40,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (telPrev) telPrev.textContent = "WhatsApp: +" + telefone;
 
     gerarCertificado(empresa);
-    setTimeout(() => gerarQrAzul(), 500);
+    setTimeout(() => gerarQrAzul(), 600);
 
     const sec = document.getElementById("certificadoSection");
     if (sec) sec.style.display = "block";
@@ -114,14 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
     imprimirDataUrl(c.toDataURL("image/png"));
   });
 
-  // ============================================
-  // MÓDULO NOVO: QR AZUL OFICIAL - ADIÇÃO
-  // ============================================
-  function getQrDataUrlAzul() {
-    return getQrDataUrl();
-  }
-
-    function gerarQrAzul() {
+  // --- MÓDULO QR AZUL (sem alterar nada acima) ---
+  function gerarQrAzul() {
     const canvas = document.getElementById("qrAzulCanvas");
     const section = document.getElementById("qrAzulSection");
     if (!canvas) return;
@@ -131,17 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.width = base.width;
       canvas.height = base.height;
       ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
-
-      // TAMANHO CORRETO - 36% da plaquinha (antes tava 48.5%)
       const qrSize = canvas.width * 0.36;
       const qrX = (canvas.width - qrSize) / 2;
       const qrY = (canvas.height - qrSize) / 2 - (canvas.height * 0.01);
-
-      // apaga o QR falso
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(qrX, qrY, qrSize, qrSize);
-
-      const qrDataUrl = getQrDataUrlAzul();
+      const qrDataUrl = getQrDataUrl();
       if (!qrDataUrl) return;
       const qrImg = new Image();
       qrImg.onload = () => {
@@ -151,12 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
       qrImg.src = qrDataUrl;
     };
     base.src = "qr-azul-base.png";
-    }
+  }
 
   document.getElementById("baixarQrAzul")?.addEventListener("click", () => {
     const c = document.getElementById("qrAzulCanvas");
     if (!c || c.width === 0) return alert("Gere primeiro");
     baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png"));
   });
-  // FIM MÓDULO NOVO
 });
