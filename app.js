@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return getQrDataUrl();
   }
 
-  function gerarQrAzul() {
+    function gerarQrAzul() {
     const canvas = document.getElementById("qrAzulCanvas");
     const section = document.getElementById("qrAzulSection");
     if (!canvas) return;
@@ -131,11 +131,16 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.width = base.width;
       canvas.height = base.height;
       ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
-      const qrSize = canvas.width * 0.485-> 0.36
+
+      // TAMANHO CORRETO - 36% da plaquinha (antes tava 48.5%)
+      const qrSize = canvas.width * 0.36;
       const qrX = (canvas.width - qrSize) / 2;
-      const qrY = (canvas.height - qrSize) / 2 - (canvas.height * 0.018);
+      const qrY = (canvas.height - qrSize) / 2 - (canvas.height * 0.01);
+
+      // apaga o QR falso
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(qrX, qrY, qrSize, qrSize);
+
       const qrDataUrl = getQrDataUrlAzul();
       if (!qrDataUrl) return;
       const qrImg = new Image();
@@ -146,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
       qrImg.src = qrDataUrl;
     };
     base.src = "qr-azul-base.png";
-  }
+    }
 
   document.getElementById("baixarQrAzul")?.addEventListener("click", () => {
     const c = document.getElementById("qrAzulCanvas");
