@@ -27,37 +27,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function gerarCertificado(empresa, telefone) {
-    const canvas = document.getElementById("certificadoCanvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height; // CORRIGIDO - antes faltava
-      ctx.drawImage(img, 0, 0);
-      ctx.save();
-      ctx.fillStyle = "#4b1f9c";
-      ctx.font = "bold 48px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.405);
-      ctx.restore();
-      ctx.fillStyle = "#2f195f";
-      ctx.textAlign = "center";
-      ctx.font = "22px Arial";
-      ctx.fillText("WhatsApp: +" + telefone, canvas.width / 2, canvas.height * 0.45);
-      const hoje = new Date().toLocaleDateString("pt-BR");
-      ctx.fillStyle = "#4b1f9c";
-ctx.font = "bold 38px 'Brush Script MT', cursive";
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
-
-ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.405);
-
-ctx.restore();
-    a.click();
-  }
-
+  const canvas = document.getElementById("certificadoCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const img = new Image();
+  img.onload = () => {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    ctx.save();
+    ctx.fillStyle = "#4b1f9c";
+    ctx.font = "bold 32px 'Brush Script MT', cursive";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.385);
+    ctx.restore();
+    document.getElementById("certificadoSection").style.display = "block";
+  };
+  img.src = "certificado-base.png";
+}
   // IMPRESSÃO CORRIGIDA - 1 página só, sem erro 1/2
   function imprimirDataUrl(dataUrl) {
     const w = window.open("", "_blank");
