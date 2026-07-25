@@ -51,7 +51,7 @@ ctx.font = "bold 48px Arial";
 ctx.textAlign = "center";
 ctx.textBaseline = "middle";
 
-ctx.fillText("TESTE", canvas.width / 2, 395);
+ctx.fillText("TESTE", canvas.width / 2, 385);
 
 ctx.restore();
     ctx.font = "24px Arial";
