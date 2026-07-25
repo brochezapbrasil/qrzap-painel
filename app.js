@@ -20,8 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
       qrDiv.innerHTML = "";
       new QRCode(qrDiv, {
         text: link,
-        width: 280,
-        height: 280,
+        width: 200,
+        height: 200,
         correctLevel: QRCode.CorrectLevel.H
       });
     }
