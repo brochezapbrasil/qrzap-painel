@@ -38,6 +38,23 @@ new QRCode(qr, {
             height: 220
         });
 
-    });
+    document.getElementById("baixarQR").onclick = () => {
+    const img = document.querySelector("#qrCode img") || document.querySelector("#qrCode canvas");
+
+if (!img) return;
+
+const link = document.createElement("a");
+link.download = "QR-ZAP.png";
+if (img.tagName === "CANVAS") {
+    link.href = img.toDataURL("image/png");
+} else {
+    link.href = img.src;
+}
+link.click();
+    };
+
+    document.getElementById("imprimirQR").onclick = () => {
+        window.print();
+    };
 
 });
