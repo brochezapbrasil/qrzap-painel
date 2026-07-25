@@ -1,110 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>QR ZAP - Painel</title>
-
 <link rel="stylesheet" href="style.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <script defer src="app.js"></script>
-
 </head>
-
 <body>
-
 <header class="topo">
     <h1>QR ZAP</h1>
     <p>Painel Administrativo</p>
 </header>
-
 <main class="container">
-
 <section class="card">
-
 <h2>Dados da Empresa</h2>
-
 <label>Nome da Empresa</label>
-<input
-id="empresa"
-type="text"
-placeholder="Ex.: Farmácia Central">
-
+<input id="empresa" type="text" placeholder="Ex.: Farmácia Central">
 <label>WhatsApp</label>
-<input
-id="telefone"
-type="tel"
-placeholder="5518999999999">
-
+<input id="telefone" type="tel" placeholder="5518999999999">
 <label>Mensagem de acolhimento</label>
-
 <textarea id="mensagem">Olá! Estou neste estabelecimento e prefiro me comunicar por mensagem. Por favor, responda por este chat para que possamos conversar. Obrigado(a)!</textarea>
-
-<button id="gerarKit">
-Gerar Kit
-</button>
-
+<button id="gerarKit">Gerar Kit</button>
 </section>
-
 <section class="card">
-
 <h2>Pré-visualização</h2>
-
 <div id="previewQR">
-
 <div id="qrCode"></div>
-
 <h3 id="empresaPreview"></h3>
-
 <p id="telefonePreview"></p>
-
 <div class="acoesQR">
-
-<button id="baixarQR" type="button">
-📥 Baixar QR
-</button>
-
-<button id="imprimirQR" type="button">
-🖨️ Imprimir QR
-</button>
-
+<button id="baixarQR" type="button">📥 Baixar QR</button>
+<button id="imprimirQR" type="button">🖨️ Imprimir QR</button>
 </div>
-
 </div>
-
 <section id="certificadoSection" style="display:none;">
     <h2>📄 Certificado Oficial QR ZAP</h2>
-
     <canvas id="certificadoCanvas"></canvas>
-
     <div class="acoesQR">
-        <button id="baixarCertificado">
-            📄 Baixar Certificado
-        </button>
+        <button id="baixarCertificado">📄 Baixar Certificado</button>
     </div>
 </section>
-
-<!-- ===== MÓDULO NOVO: QR AZUL OFICIAL - INÍCIO ===== -->
-<section id="qrAzulSection" style="display:none;">
-    <h2>🔵 Plaquinha Oficial QR Azul</h2>
-
-    <canvas id="qrAzulCanvas" style="max-width:100%; width:100%; display:block; margin:10px auto; border-radius:12px;"></canvas>
-
-    <div class="acoesQR">
-        <button id="baixarQrAzul" type="button">
-            📥 Baixar QR Azul Oficial
-        </button>
-    </div>
 </section>
-<!-- ===== MÓDULO NOVO: QR AZUL OFICIAL - FIM ===== -->
-
-</section> <!-- fecha o card -->
-
 </main>
-
 </body>
 </html>
