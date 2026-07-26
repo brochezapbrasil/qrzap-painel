@@ -19,7 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const telPrev = document.getElementById("telefonePreview");
     if (telPrev) telPrev.textContent = "WhatsApp: +" + telefone;
     gerarCertificado(empresa);
-    setTimeout(() => gerarQrAzul(), 700);
+    setTimeout(() => {
+    console.log(getQrDataUrl());
+    gerarQrAzul();
+}, 1500);
     const sec = document.getElementById("certificadoSection");
     if (sec) sec.style.display = "block";
   });
