@@ -142,4 +142,4 @@ document.getElementById("baixarSelo")?.addEventListener("click", () => {
     baixar("SELO-OFICIAL.png", canvas.toDataURL("image/png"));
 
 });
-})
+
