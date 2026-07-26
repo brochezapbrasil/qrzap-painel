@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(getQrDataUrl());
     gerarQrAzul();
 }, 1500);
+    setTimeout(() => gerarSelo(), 1800);
     const sec = document.getElementById("certificadoSection");
     if (sec) sec.style.display = "block";
   });
@@ -80,3 +81,65 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   document.getElementById("baixarQrAzul")?.addEventListener("click", () => { const c = document.getElementById("qrAzulCanvas"); if (!c || c.width === 0) return alert("Gere primeiro"); baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png")); });
 });
+/* ===========================
+   SELO OFICIAL
+=========================== */
+
+function gerarSelo() {
+
+    const canvas = document.getElementById("seloCanvas");
+    const section = document.getElementById("seloSection");
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    const base = new Image();
+
+    base.onload = () => {
+
+        canvas.width = base.width;
+        canvas.height = base.height;
+
+        ctx.drawImage(base, 0, 0);
+
+        const qrData = getQrDataUrl();
+
+        if (!qrData) return;
+
+        const qr = new Image();
+
+        qr.onload = () => {
+
+            // Ajustaremos estas medidas conforme a arte do selo
+            const tamanho = canvas.width * 0.42;
+            const x = (canvas.width - tamanho) / 2;
+            const y = (canvas.height - tamanho) / 2;
+
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(x, y, tamanho, tamanho);
+
+            ctx.drawImage(qr, x, y, tamanho, tamanho);
+
+            if (section)
+                section.style.display = "block";
+        };
+
+        qr.src = qrData;
+
+    };
+
+    base.src = "selo-base.png";
+}
+
+document.getElementById("baixarSelo")?.addEventListener("click", () => {
+
+    const canvas = document.getElementById("seloCanvas");
+
+    if (!canvas || canvas.width === 0)
+        return alert("Gere o kit primeiro.");
+
+    baixar("SELO-OFICIAL.png", canvas.toDataURL("image/png"));
+
+});
+})
