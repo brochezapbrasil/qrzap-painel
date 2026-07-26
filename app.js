@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const d=getQrDataUrl(); if(!d) return;
       const qr=new Image();
       qr.onload=()=>{
-        const tamanho = c.width * 0.188;
-        const x = c.width * 0.756;
-        const y = c.height * 0.395;
+        const tamanho = c.width * 0.172;
+        const x = c.width * 0.770;
+        const y = c.height * 0.405;
         ctx.fillStyle="#fff"; ctx.fillRect(x,y,tamanho,tamanho);
         ctx.drawImage(qr,x,y,tamanho,tamanho);
       };
