@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
     console.log(getQrDataUrl());
     gerarQrAzul();
+      gerarAdesivo();
 }, 1500);
     setTimeout(() => gerarSelo(), 1800);
     const sec = document.getElementById("certificadoSection");
@@ -140,6 +141,67 @@ document.getElementById("baixarSelo")?.addEventListener("click", () => {
         return alert("Gere o kit primeiro.");
 
     baixar("SELO-OFICIAL.png", canvas.toDataURL("image/png"));
+
+});
+  /* ============================
+   ADESIVO OFICIAL PARA PORTA
+============================= */
+
+function gerarAdesivo() {
+
+    const canvas = document.getElementById("adesivoCanvas");
+    const section = document.getElementById("adesivoSection");
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    const base = new Image();
+
+    base.onload = () => {
+
+        canvas.width = base.width;
+        canvas.height = base.height;
+
+        ctx.drawImage(base, 0, 0);
+
+        const qrData = getQrDataUrl();
+
+        if (!qrData) return;
+
+        const qr = new Image();
+
+        qr.onload = () => {
+
+            const tamanho = canvas.width * 0.33;
+            const x = (canvas.width - tamanho) / 2;
+            const y = canvas.height * 0.36;
+
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(x, y, tamanho, tamanho);
+
+            ctx.drawImage(qr, x, y, tamanho, tamanho);
+
+            section.style.display = "block";
+        };
+
+        qr.src = qrData;
+
+    };
+
+    base.src = "adesivo-porta-base.png";
+}
+
+document.getElementById("baixarAdesivo")?.addEventListener("click", () => {
+
+    const canvas = document.getElementById("adesivoCanvas");
+
+    if (!canvas || canvas.width === 0) {
+        alert("Gere o kit primeiro.");
+        return;
+    }
+
+    baixar("ADESIVO-PORTA.png", canvas.toDataURL("image/png"));
 
 });
 });
