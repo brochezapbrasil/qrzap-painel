@@ -198,7 +198,7 @@ document.getElementById("baixarAdesivo")?.addEventListener("click", () => {
     if (!canvas || canvas.width === 0) {
         alert("Gere o kit primeiro.");
         return;
-    
+    }    
 
     baixar("ADESIVO-PORTA.png", canvas.toDataURL("image/png"));
 
