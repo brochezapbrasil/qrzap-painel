@@ -165,28 +165,7 @@ function gerarAdesivo() {
 
         ctx.drawImage(base, 0, 0);
 
-        const qrData = getQrDataUrl();
-
-        if (!qrData) return;
-
-        const qr = new Image();
-
-        qr.onload = () => {
-
-            const tamanho = canvas.width * 0.33;
-            const x = (canvas.width - tamanho) / 2;
-            const y = canvas.height * 0.36;
-
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(x, y, tamanho, tamanho);
-
-            ctx.drawImage(qr, x, y, tamanho, tamanho);
-
-            section.style.display = "block";
-        };
-
-        qr.src = qrData;
-
+        section.style.display = "block";
     };
 
     base.src = "adesivo-porta-base.png";
