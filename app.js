@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     w.document.write(`<html><head><title>Imprimir</title><style>@page{margin:0}body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh}img{max-width:95vw;max-height:95vh}</style></head><body><img src="${dataUrl}" onload="setTimeout(()=>{window.print();},500)"></body></html>`);
     w.document.close();
   }
-  document.getElementById("baixarQR")?.addEventListener("click", () => { const d = getQrDataUrl(); if (!d) return alert("Gere o QR primeiro."); baixar("QR-ZAP.png", d); });
+  document.getElementById("baixarQR")?.addEventListener("click", () => { const d = getQrDataUrl(); if (!d) return alert("Gere o QR primeiro."); baixar("QR-ZAP.png", d); 
   document.getElementById("imprimirQR")?.addEventListener("click", () => { const d = getQrDataUrl(); if (!d) return alert("Gere o QR primeiro."); imprimirDataUrl(d); });
   document.getElementById("baixarCertificado")?.addEventListener("click", () => { const c = document.getElementById("certificadoCanvas"); if (!c || c.width === 0) return alert("Gere primeiro"); baixar("CERTIFICADO.png", c.toDataURL("image/png")); });
   document.getElementById("imprimirCertificado")?.addEventListener("click", () => { const c = document.getElementById("certificadoCanvas"); if (!c || c.width === 0) return alert("Gere primeiro"); imprimirDataUrl(c.toDataURL("image/png")); });
@@ -142,4 +142,4 @@ document.getElementById("baixarSelo")?.addEventListener("click", () => {
     baixar("SELO-OFICIAL.png", canvas.toDataURL("image/png"));
 
 });
-
+});
