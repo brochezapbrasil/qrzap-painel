@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
     console.log(getQrDataUrl());
     gerarQrAzul();
-      gerarAdesivo();
+    
 }, 1500);
     setTimeout(() => gerarSelo(), 1800);
     const sec = document.getElementById("certificadoSection");
