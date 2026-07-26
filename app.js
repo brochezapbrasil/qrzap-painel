@@ -113,9 +113,9 @@ function gerarSelo() {
         qr.onload = () => {
 
             // Ajustaremos estas medidas conforme a arte do selo
-            const tamanho = canvas.width * 0.42;
+            const tamanho = canvas.width * 0.32;
             const x = (canvas.width - tamanho) / 2;
-            const y = (canvas.height - tamanho) / 2;
+            const y = (canvas.height - tamanho) * 0.34;
 
             ctx.fillStyle = "#fff";
             ctx.fillRect(x, y, tamanho, tamanho);
