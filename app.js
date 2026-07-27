@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("gerarKit");
   if (!btn) return;
+
   btn.addEventListener("click", () => {
     const empresa = document.getElementById("empresa")?.value.trim() || "";
     const telefoneRaw = document.getElementById("telefone")?.value.trim() || "";
@@ -9,11 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!empresa || !telefone || !mensagem) { alert("Preencha todos os campos."); return; }
     const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
     const qrDiv = document.getElementById("qrCode");
-    if (qrDiv) { qrDiv.innerHTML = ""; new QRCode(qrDiv, { text: link, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.H }); }
+    if (qrDiv) {
+      qrDiv.innerHTML = "";
+      new QRCode(qrDiv, { text: link, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.H });
+    }
     document.getElementById("empresaPreview").textContent = empresa;
     document.getElementById("telefonePreview").textContent = "WhatsApp: +" + telefone;
     gerarCertificado(empresa);
-    setTimeout(() => { gerarQrAzul(); gerarSelo(); gerarAdesivo(); }, 900);
+    setTimeout(() => { gerarQrAzul(); gerarSelo(); gerarAdesivo(); }, 800);
     document.getElementById("certificadoSection").style.display = "block";
   });
 
@@ -21,89 +25,73 @@ document.addEventListener("DOMContentLoaded", () => {
     const c = document.querySelector("#qrCode canvas"); if (c) return c.toDataURL("image/png");
     const i = document.querySelector("#qrCode img"); if (i) return i.src; return null;
   }
-  function baixar(n,d){ const a=document.createElement("a"); a.download=n; a.href=d; a.click(); }
-
-  function gerarCertificado(empresa){
-  const c = document.getElementById("certificadoCanvas");
-  if(!c) return;
-
-  const ctx = c.getContext("2d");
-  const img = new Image();
-
-  img.onload = () => {
-    c.width = img.width;
-    c.height = img.height;
-
-    // Fundo do certificado
-    ctx.drawImage(img, 0, 0);
-
-    // Faixa branca para o nome
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(
-      c.width * 0.18,
-      c.height * 0.385,
-      c.width * 0.64,
-      c.height * 0.06
-    );
-
-    // Nome da empresa
-    ctx.fillStyle = "#4b1f9c";
-    ctx.font = "bold 78px 'Brush Script MT', cursive";
-    ctx.textAlign = "center";
-    ctx.fillText(
-      empresa,
-      c.width / 2,
-      c.height * 0.43
-    );
-
-    // Remove a área da validade (fica em branco)
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(
-      c.width * 0.02,
-      c.height * 0.855,
-      c.width * 0.78,
-      c.height * 0.05
-    );
-  };
-  img.src = "certificado-base.png";
-}
-  
-  }
-  function gerarQrAzul(){
-    const c=document.getElementById("qrAzulCanvas"); const s=document.getElementById("qrAzulSection"); if(!c) return;
-    const ctx=c.getContext("2d"); const base=new Image();
-    base.onload=()=>{
-      c.width=base.width; c.height=base.height; ctx.drawImage(base,0,0,c.width,c.height);
-      const qrSize=c.width*0.36; const qrX=(c.width-qrSize)/2; const qrY=(c.height-qrSize)/2 - (c.height*0.01);
-      ctx.fillStyle="#fff"; ctx.fillRect(qrX,qrY,qrSize,qrSize);
-      const d=getQrDataUrl(); if(!d) return; const qr=new Image();
-      qr.onload=()=>{ ctx.drawImage(qr,qrX,qrY,qrSize,qrSize); if(s) s.style.display="block"; }; qr.src=d;
-    }; base.src="qr-azul-base.png";
+  function baixar(nome, dataUrl) { const a = document.createElement("a"); a.download = nome; a.href = dataUrl; a.click(); }
+  function imprimirDataUrl(dataUrl) {
+    const w = window.open("", "_blank"); if (!w) return;
+    w.document.write(`<html><body style="margin:0;display:flex;justify-content:center;align-items:center"><img src="${dataUrl}" onload="setTimeout(()=>print(),500)" style="max-width:95vw"></body></html>`);
+    w.document.close();
   }
 
-  function gerarAdesivo(){
-    const c=document.getElementById("adesivoCanvas"); const s=document.getElementById("adesivoSection"); if(!c) return;
-    const ctx=c.getContext("2d"); const base=new Image();
-    base.onload=()=>{
-      c.width=base.width; c.height=base.height; ctx.drawImage(base,0,0);
-      if(s) s.style.display="block";
-      const d=getQrDataUrl(); if(!d) return;
-      const qr=new Image();
-      qr.onload=()=>{
-        const tamanho = c.width * 0.281;
-const x = c.width * 0.652;
-const y = c.height * 0.156;
-        ctx.fillStyle="#fff"; ctx.fillRect(x,y,tamanho,tamanho);
-        ctx.drawImage(qr,x,y,tamanho,tamanho);
-      };
-      qr.src=d;
-    };
-    base.src="adesivo-porta-base.png";
+  function gerarCertificado(empresa) {
+    const canvas = document.getElementById("certificadoCanvas"); if (!canvas) return;
+    const ctx = canvas.getContext("2d"); const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width; canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      ctx.fillStyle = "#fff"; ctx.fillRect(canvas.width*0.18, canvas.height*0.385, canvas.width*0.64, canvas.height*0.06);
+      ctx.fillStyle = "#4b1f9c"; ctx.font = "bold 78px 'Brush Script MT', cursive"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(empresa, canvas.width/2, canvas.height*0.43);
+    }; img.src = "certificado-base.png";
   }
 
-  document.getElementById("baixarQR").onclick = () => baixar("QR-ZAP.png", getQrDataUrl());
+  function gerarSelo() {
+    const canvas = document.getElementById("seloCanvas"); const section = document.getElementById("seloSection");
+    if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
+    base.onload = () => {
+      canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0);
+      const qrData = getQrDataUrl(); if (!qrData) return; const qr = new Image();
+      qr.onload = () => {
+        const tamanho = canvas.width * 0.22; const x = (canvas.width - tamanho)/2; const y = canvas.height * 0.19;
+        ctx.fillStyle = "#fff"; ctx.fillRect(x-2, y-2, tamanho+4);
+        ctx.drawImage(qr, x, y, tamanho, tamanho);
+        if (section) section.style.display = "block";
+      }; qr.src = qrData;
+    }; base.src = "selo-base.png";
+  }
+
+  function gerarQrAzul() {
+    const canvas = document.getElementById("qrAzulCanvas"); const section = document.getElementById("qrAzulSection");
+    if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
+    base.onload = () => {
+      canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
+      const qrSize = canvas.width * 0.36; const qrX = (canvas.width - qrSize)/2; const qrY = (canvas.height - qrSize)/2 - (canvas.height*0.01);
+      ctx.fillStyle = "#fff"; ctx.fillRect(qrX, qrY, qrSize, qrSize);
+      const qrDataUrl = getQrDataUrl(); if (!qrDataUrl) return; const qrImg = new Image();
+      qrImg.onload = () => { ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize); if (section) section.style.display = "block"; };
+      qrImg.src = qrDataUrl;
+    }; base.src = "qr-azul-base.png";
+  }
+
+  function gerarAdesivo() {
+    const canvas = document.getElementById("adesivoCanvas"); const section = document.getElementById("adesivoSection");
+    if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
+    base.onload = () => {
+      canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0);
+      const qrData = getQrDataUrl(); if (!qrData) { section.style.display="block"; return; }
+      const qr = new Image();
+      qr.onload = () => {
+        const tamanho = canvas.width * 0.32; const x = (canvas.width - tamanho)/2; const y = canvas.height * 0.58;
+        ctx.fillStyle = "#fff"; ctx.fillRect(x-2, y-2, tamanho+4, tamanho+4);
+        ctx.drawImage(qr, x, y, tamanho, tamanho);
+        if (section) section.style.display = "block";
+      }; qr.src = qrData;
+    }; base.src = "adesivo-porta-base.png";
+  }
+
+  document.getElementById("baixarQR").onclick = () => { const d=getQrDataUrl(); if(!d) return alert("Gere o QR primeiro."); baixar("QR-ZAP.png", d); };
+  document.getElementById("imprimirQR").onclick = () => { const d=getQrDataUrl(); if(!d) return alert("Gere o QR primeiro."); imprimirDataUrl(d); };
   document.getElementById("baixarCertificado").onclick = () => { const c=document.getElementById("certificadoCanvas"); baixar("CERTIFICADO.png", c.toDataURL("image/png")); };
-  document.getElementById("baixarSelo").onclick = () => { const c=document.getElementById("seloCanvas"); baixar("SELO-OFICIAL.png", c.toDataURL("image/png")); };
+  document.getElementById("baixarSelo").onclick = () => { const c=document.getElementById("seloCanvas"); if(!c||c.width===0) return alert("Gere o kit primeiro."); baixar("SELO-OFICIAL.png", c.toDataURL("image/png")); };
   document.getElementById("baixarQrAzul").onclick = () => { const c=document.getElementById("qrAzulCanvas"); baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png")); };
   document.getElementById("baixarAdesivo").onclick = () => { const c=document.getElementById("adesivoCanvas"); baixar("ADESIVO-PORTA.png", c.toDataURL("image/png")); };
 });
