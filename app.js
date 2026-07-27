@@ -24,13 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function baixar(n,d){ const a=document.createElement("a"); a.download=n; a.href=d; a.click(); }
 
   function gerarCertificado(empresa){
-    const c=document.getElementById("certificadoCanvas"); if(!c) return; 
-    const ctx=c.getContext("2d"); const img=new Image();
-    img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); ctx.fillStyle="#fff"; ctx.fillRect(c.width*0.18,c.height*0.385,c.width*0.64,c.height*0.06); ctx.fillStyle="#4b1f9c"; ctx.font="bold 78px 'Brush Script MT', cursive"; ctx.textAlign="center"; ctx.fillText(empresa,c.width/2,c.height*0.43); };
-    img.src="certificado-base.png";
-  }
-
-  function gerarCertificado(empresa){
   const c=document.getElementById("certificadoCanvas"); if(!c) return; 
   const ctx=c.getContext("2d"); const img=new Image();
   img.onload=()=>{
