@@ -42,6 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = "#4b1f9c"; ctx.font = "bold 78px 'Brush Script MT', cursive"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
       ctx.fillText(empresa, canvas.width/2, canvas.height*0.43);
     }; img.src = "certificado-base.png";
+    ctx.fillStyle = "#fff";
+ctx.fillRect(
+    canvas.width * 0.03,
+    canvas.height * 0.855,
+    canvas.width * 0.42,
+    canvas.height * 0.04
+);
   }
 
   function gerarSelo() {
