@@ -26,29 +26,30 @@ document.addEventListener("DOMContentLoaded", () => {
   function gerarCertificado(empresa){
     const c=document.getElementById("certificadoCanvas"); if(!c) return; 
     const ctx=c.getContext("2d"); const img=new Image();
-    img.onload=()=>{
-      c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0);
-      ctx.fillStyle="#fff"; 
-      ctx.fillRect(c.width*0.18,c.height*0.385,c.width*0.64,c.height*0.06); 
-      ctx.fillStyle="#4b1f9c"; 
-      ctx.font="bold 78px 'Brush Script MT', cursive"; 
-      ctx.textAlign="center"; 
-      ctx.fillText(empresa,c.width/2,c.height*0.43);
-      ctx.fillStyle="#fff";
-      ctx.fillRect(c.width*0.015, c.height*0.805, c.width*0.85, c.height*0.08);
-      ctx.fillStyle="#4a4a4a";
-      ctx.font="italic " + (c.width*0.014) + "px Arial, sans-serif";
-      ctx.textAlign="left";
-      ctx.fillText("Porque comunicar é um direito. Incluir é uma escolha. Acolher é um compromisso.", c.width*0.025, c.height*0.845);
-    };
+    img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); ctx.fillStyle="#fff"; ctx.fillRect(c.width*0.18,c.height*0.385,c.width*0.64,c.height*0.06); ctx.fillStyle="#4b1f9c"; ctx.font="bold 78px 'Brush Script MT', cursive"; ctx.textAlign="center"; ctx.fillText(empresa,c.width/2,c.height*0.43); };
     img.src="certificado-base.png";
   }
 
-  function gerarSelo(){
-    const c=document.getElementById("seloCanvas"); const s=document.getElementById("seloSection"); if(!c) return;
-    const ctx=c.getContext("2d"); const base=new Image();
-    base.onload=()=>{ c.width=base.width; c.height=base.height; ctx.drawImage(base,0,0); if(s) s.style.display="block"; };
-    base.src="selo-base.png";
+  function gerarCertificado(empresa){
+  const c=document.getElementById("certificadoCanvas"); if(!c) return; 
+  const ctx=c.getContext("2d"); const img=new Image();
+  img.onload=()=>{
+    c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0);
+    
+    // nome da empresa
+    ctx.fillStyle="#fff"; 
+    ctx.fillRect(c.width*0.18,c.height*0.385,c.width*0.64,c.height*0.06); 
+    ctx.fillStyle="#4b1f9c"; 
+    ctx.font="bold 78px 'Brush Script MT', cursive"; 
+    ctx.textAlign="center"; 
+    ctx.fillText(empresa,c.width/2,c.height*0.43);
+
+    function gerarCertificado(empresa){
+    const c=document.getElementById("certificadoCanvas"); if(!c) return; 
+    const ctx=c.getContext("2d"); const img=new Image();
+    img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); ctx.fillStyle="#fff"; ctx.fillRect(c.width*0.18,c.height*0.385,c.width*0.64,c.height*0.06); ctx.fillStyle="#4b1f9c"; ctx.font="bold 78px 'Brush Script MT', cursive"; ctx.textAlign="center"; ctx.fillText(empresa,c.width/2,c.height*0.43); };
+    img.src="certificado-base.png";
+  img.src="certificado-base.png";
   }
 
   function gerarQrAzul(){
@@ -72,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const d=getQrDataUrl(); if(!d) return;
       const qr=new Image();
       qr.onload=()=>{
-        const tamanho = c.width * 0.158;
-        const x = c.width * 0.741;
-        const y = c.height * 0.408;
+        const tamanho = c.width * 0.281;
+const x = c.width * 0.652;
+const y = c.height * 0.156;
         ctx.fillStyle="#fff"; ctx.fillRect(x,y,tamanho,tamanho);
         ctx.drawImage(qr,x,y,tamanho,tamanho);
       };
