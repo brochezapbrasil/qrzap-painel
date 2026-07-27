@@ -30,23 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
     c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0);
     
     // nome da empresa
-    ctx.fillStyle="#fff"; 
-    ctx.fillRect(c.width*0.18,c.height*0.385,c.width*0.64,c.height*0.06); 
-    ctx.fillStyle="#4b1f9c"; 
-    ctx.font="bold 78px 'Brush Script MT', cursive"; 
-    ctx.textAlign="center"; 
-    ctx.fillText(empresa,c.width/2,c.height*0.43);
-
+    
     // APAGA validade antiga e escreve a nova frase
     ctx.fillStyle="#fff";
-    ctx.fillRect(c.width*0.015, c.height*0.855, c.width*0.80, c.height*0.05);
-    ctx.fillStyle="#4a4a4a";
-    ctx.font="italic " + (c.width*0.014) + "px Arial, sans-serif";
-    ctx.textAlign="left";
-    ctx.fillText("Porque comunicar é um direito. Incluir é uma escolha. Acolher é um compromisso.", c.width*0.025, c.height*0.885);
-  };
+ctx.fillRect(c.width*0.015, c.height*0.805, c.width*0.85, c.height*0.08);
+ctx.fillStyle="#4a4a4a";
+ctx.font="italic " + (c.width*0.014) + "px Arial, sans-serif";
+ctx.textAlign="left";
+ctx.fillText("Porque comunicar é um direito. Incluir é uma escolha. Acolher é um compromisso.", c.width*0.025, c.height*0.845);
   img.src="certificado-base.png";
-  }
+  };
 
   function gerarQrAzul(){
     const c=document.getElementById("qrAzulCanvas"); const s=document.getElementById("qrAzulSection"); if(!c) return;
