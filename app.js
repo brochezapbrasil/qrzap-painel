@@ -17,8 +17,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("empresaPreview").textContent = empresa;
     document.getElementById("telefonePreview").textContent = "WhatsApp: +" + telefone;
     gerarCertificado(empresa);
-    setTimeout(() => { gerarQrAzul(); gerarSelo(); gerarAdesivo(); }, 800);
-    document.getElementById("certificadoSection").style.display = "block";
+gerarCertificadoOficial(empresa);
+
+document.getElementById("certificadoSection").style.display = "block";
+document.getElementById("certificadoOficialSection").style.display = "block";
+
+setTimeout(() => {
+    gerarQrAzul();
+    gerarSelo();
+    gerarAdesivo();
+}, 800);
+    
   });
 
   function getQrDataUrl() {
