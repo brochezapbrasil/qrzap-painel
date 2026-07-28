@@ -57,9 +57,9 @@ setTimeout(() => {
         ctx.fillStyle = "#fff";
         ctx.fillRect(
             canvas.width * 0.18,
-            canvas.height * 0.385,
+            canvas.height * 0.370,
             canvas.width * 0.64,
-            canvas.height * 0.06
+            canvas.height * 0.08
         );
 
         ctx.fillStyle = "#4b1f9c";
@@ -70,7 +70,7 @@ setTimeout(() => {
         ctx.fillText(
             empresa,
             canvas.width / 2,
-            canvas.height * 0.43
+            canvas.height * 0.315
         );
     };
 
