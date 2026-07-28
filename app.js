@@ -164,4 +164,9 @@ const y = canvas.height * 0.156;
   document.getElementById("baixarSelo").onclick = () => { const c=document.getElementById("seloCanvas"); if(!c||c.width===0) return alert("Gere o kit primeiro."); baixar("SELO-OFICIAL.png", c.toDataURL("image/png")); };
   document.getElementById("baixarQrAzul").onclick = () => { const c=document.getElementById("qrAzulCanvas"); baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png")); };
   document.getElementById("baixarAdesivo").onclick = () => { const c=document.getElementById("adesivoCanvas"); baixar("ADESIVO-PORTA.png", c.toDataURL("image/png")); };
+document.getElementById("baixarCertificadoOficial").onclick = () => {
+    const c = document.getElementById("certificadoOficialCanvas");
+    if (!c || !c.width) return alert("Gere o Certificado Oficial primeiro.");
+    baixar("CERTIFICADO-OFICIAL-QRZAP.png", c.toDataURL("image/png"));
+};
 });
