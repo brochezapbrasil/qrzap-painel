@@ -33,16 +33,74 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function gerarCertificado(empresa) {
-    const canvas = document.getElementById("certificadoCanvas"); if (!canvas) return;
-    const ctx = canvas.getContext("2d"); const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width; canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      ctx.fillStyle = "#fff"; ctx.fillRect(canvas.width*0.18, canvas.height*0.385, canvas.width*0.64, canvas.height*0.06);
-      ctx.fillStyle = "#4b1f9c"; ctx.font = "bold 78px 'Brush Script MT', cursive"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText(empresa, canvas.width/2, canvas.height*0.43);
-    }; img.src = "certificado-base.png";
+    const canvas = document.getElementById("certificadoCanvas");
+    if (!canvas) return;
 
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
+
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(
+            canvas.width * 0.18,
+            canvas.height * 0.385,
+            canvas.width * 0.64,
+            canvas.height * 0.06
+        );
+
+        ctx.fillStyle = "#4b1f9c";
+        ctx.font = "bold 78px 'Brush Script MT', cursive";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        ctx.fillText(
+            empresa,
+            canvas.width / 2,
+            canvas.height * 0.43
+        );
+    };
+
+    img.src = "certificado-base.png";
+}
+
+function gerarCertificadoOficial(empresa) {
+    const canvas = document.getElementById("certificadoOficialCanvas");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
+
+        // Nome da empresa
+        ctx.fillStyle = "#3d247a";
+        ctx.font = "bold 78px 'Brush Script MT', cursive";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        ctx.fillText(
+            empresa,
+            canvas.width / 2,
+            canvas.height * 0.315
+        );
+
+        // Futuramente entra aqui:
+        // número do certificado
+        // data de adesão
+        // QR de autenticação
+    };
+
+    img.src = "certificado-oficial.png";
+}
   }
 
   function gerarSelo() {
