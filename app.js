@@ -115,7 +115,6 @@ ctx.fillText(
     empresa,
     canvas.width / 2,
     canvas.height * 0.30
-);
         );
 
         // Futuramente entra aqui:
