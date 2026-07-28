@@ -98,14 +98,24 @@ ctx.fillRect(
 );
         // Nome da empresa
         ctx.fillStyle = "#3d247a";
-        ctx.font = "bold 78px 'Brush Script MT', cursive";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
 
-        ctx.fillText(
-            empresa,
-            canvas.width / 2,
-            canvas.height * 0.30
+let tamanhoFonte = 78;
+const larguraMaxima = canvas.width * 0.68;
+
+ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+
+while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 30) {
+    tamanhoFonte -= 2;
+    ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+}
+
+ctx.fillText(
+    empresa,
+    canvas.width / 2,
+    canvas.height * 0.30
+);
         );
 
         // Futuramente entra aqui:
