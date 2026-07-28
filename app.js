@@ -70,7 +70,7 @@ setTimeout(() => {
         ctx.fillText(
             empresa,
             canvas.width / 2,
-            canvas.height * 0.315
+            canvas.height * 0.43
         );
     };
 
@@ -89,7 +89,13 @@ function gerarCertificadoOficial(empresa) {
         canvas.height = img.height;
 
         ctx.drawImage(img, 0, 0);
-
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(
+    canvas.width * 0.18,
+    canvas.height * 0.255,
+    canvas.width * 0.64,
+    canvas.height * 0.09
+);
         // Nome da empresa
         ctx.fillStyle = "#3d247a";
         ctx.font = "bold 78px 'Brush Script MT', cursive";
@@ -99,7 +105,7 @@ function gerarCertificadoOficial(empresa) {
         ctx.fillText(
             empresa,
             canvas.width / 2,
-            canvas.height * 0.315
+            canvas.height * 0.30
         );
 
         // Futuramente entra aqui:
