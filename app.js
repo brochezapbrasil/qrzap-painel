@@ -117,7 +117,7 @@ function gerarCertificadoOficial(empresa) {
         ctx.fillText(
             empresa,
             canvas.width / 2,
-            canvas.height * 0.355
+            canvas.height * 0.43
         );
 
     };
