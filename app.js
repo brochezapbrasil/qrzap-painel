@@ -98,41 +98,32 @@ function gerarCertificadoOficial(empresa) {
         canvas.height = img.height;
 
         ctx.drawImage(img, 0, 0);
-ctx.fillStyle = "#ffffff";
-ctx.fillRect(
-    canvas.width * 0.18,
-    canvas.height * 0.255,
-    canvas.width * 0.64,
-    canvas.height * 0.09
-);
+
         // Nome da empresa
         ctx.fillStyle = "#3d247a";
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
 
-let tamanhoFonte = 78;
-const larguraMaxima = canvas.width * 0.68;
+        let tamanhoFonte = 78;
+        const larguraMaxima = canvas.width * 0.78;
 
-ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+        ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
 
-while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 30) {
-    tamanhoFonte -= 2;
-    ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
-}
+        while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 30) {
+            tamanhoFonte -= 2;
+            ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+        }
 
-ctx.fillText(
-    empresa,
-    canvas.width / 2,
-    canvas.height * 0.30
+        ctx.fillText(
+            empresa,
+            canvas.width / 2,
+            canvas.height * 0.355
         );
 
-        // Futuramente entra aqui:
-        // número do certificado
-        // data de adesão
-        // QR de autenticação
     };
 
     img.src = "certificado-oficial.png";
+}
 }
 
   function gerarSelo() {
