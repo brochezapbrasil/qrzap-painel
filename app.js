@@ -124,7 +124,6 @@ function gerarCertificadoOficial(empresa) {
 
     img.src = "certificado-oficial.png";
 }
-}
 
   function gerarSelo() {
     const canvas = document.getElementById("seloCanvas"); const section = document.getElementById("seloSection");
