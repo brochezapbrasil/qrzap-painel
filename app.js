@@ -161,9 +161,9 @@ function gerarCertificadoOficial(empresa) {
       const qrData = getQrDataUrl(); if (!qrData) { section.style.display="block"; return; }
       const qr = new Image();
       qr.onload = () => {
-const tamanho = canvas.width * 0.235;
-const x = canvas.width * 0.709;
-const y = canvas.height * 0.133;
+const tamanho = canvas.width * 0.2344;
+const x = canvas.width * 0.7031;
+const y = canvas.height * 0.1328;
         ctx.fillStyle = "#fff"; ctx.fillRect(x-2, y-2, tamanho+4, tamanho+4);
         ctx.drawImage(qr, x, y, tamanho, tamanho);
         if (section) section.style.display = "block";
