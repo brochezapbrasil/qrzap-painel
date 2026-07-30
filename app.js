@@ -77,16 +77,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function gerarSelo() {
-    const canvas = document.getElementById("seloCanvas"); const section = document.getElementById("seloSection");
-    if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
-    base.onerror = () => alert("Erro ao carregar selo-base-v2.png");
+    const canvas = document.getElementById("seloCanvas");
+    const section = document.getElementById("seloSection");
 
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const base = new Image();
+
+    base.onerror = () => alert("Erro ao carregar selo-base-v2.png");
 base.onload = () => {
     canvas.width = base.width;
     canvas.height = base.height;
     ctx.drawImage(base, 0, 0);
 
-    const qr = new Image();
+const qrData = getQrDataUrl();
+if (!qrData) return;
+
+const qr = new Image();
     qr.onload = () => {
         const tamanho = canvas.width * 0.22;
         const x = (canvas.width - tamanho) / 2;
