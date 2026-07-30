@@ -86,53 +86,6 @@ ctx.fillText(
     img.src = "certificado-base.png";
 }
 
-function gerarAdesivo() {
-  const canvas = document.getElementById("adesivoCanvas"); 
-  const section = document.getElementById("adesivoSection");
-  if (!canvas) return; 
-  const ctx = canvas.getContext("2d"); 
-  const base = new Image();
-  
-  base.onload = () => {
-    canvas.width = base.width; 
-    canvas.height = base.height; 
-    ctx.drawImage(base, 0, 0);
-    
-    const qrData = getQrDataUrl(); 
-    if (!qrData) { if(section) section.style.display="block"; return; }
-    
-    const qr = new Image();
-    qr.onload = () => {
-      // MEDIDA EXATA DA SUA BASE FINAL "ACESSIBILIDADE PARA TODOS"
-      const quadroX = canvas.width * 0.632;
-      const quadroY = canvas.height * 0.078;
-      const quadroW = canvas.width * 0.324;
-      const quadroH = canvas.height * 0.652;
-
-      // 1. Limpa tudo que tava por baixo do branco
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(quadroX, quadroY, quadroW, quadroH);
-
-      // 2. QR com respiro de 7% centralizado vertical e horizontal
-      const padding = quadroW * 0.07;
-      const tamanho = quadroW - (padding * 2);
-      const x = quadroX + padding;
-      const y = quadroY + (quadroH - tamanho) / 2; // ISSO QUE CORRIGE SEU ERRO DO PRINT
-
-      ctx.drawImage(qr, x, y, tamanho, tamanho);
-      
-      // 3. Redesenha borda verde por cima pra ficar perfeita
-      ctx.strokeStyle = "#1a9d5f";
-      ctx.lineWidth = canvas.width * 0.008;
-      ctx.lineJoin = "round";
-      ctx.strokeRect(quadroX, quadroY, quadroW, quadroH);
-      
-      if (section) section.style.display = "block";
-    }; 
-    qr.src = qrData;
-  }; 
-  base.src = "adesivo-porta-base.png"; // usa a base limpa que te mandei
-}
 }
 
   function gerarSelo() {
@@ -149,58 +102,7 @@ function gerarAdesivo() {
       }; qr.src = qrData;
     }; base.src = "selo-base.png";
   }
-
-  function gerarAdesivo() {
-  const canvas = document.getElementById("adesivoCanvas"); 
-  const section = document.getElementById("adesivoSection");
-  if (!canvas) return; 
-  const ctx = canvas.getContext("2d"); 
-  const base = new Image();
-  
-  base.onload = () => {
-    canvas.width = base.width; 
-    canvas.height = base.height; 
-    ctx.drawImage(base, 0, 0);
-    
-    const qrData = getQrDataUrl(); 
-    if (!qrData) { if(section) section.style.display="block"; return; }
-    
-    const qr = new Image();
-    qr.onload = () => {
-      // ===== MEDIDAS CERTAS DO QUADRO VERDE - BASE FINAL =====
-      const quadroX = canvas.width * 0.632;  // início na horizontal
-      const quadroY = canvas.height * 0.082; // início na vertical
-      const quadroW = canvas.width * 0.324;  // largura do quadro
-      const quadroH = canvas.height * 0.648; // altura do quadro
-      const raio = canvas.width * 0.015;     // arredondado
-      const borda = canvas.width * 0.007;    // espessura da borda verde
-
-      // 1. Limpa a área (remove qualquer sujeira que tinha por baixo)
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(quadroX, quadroY, quadroW, quadroH);
-
-      // 2. Desenha o quadro verde por cima, na medida certa
-      ctx.strokeStyle = "#1a9d5f"; // verde do BrocheZap
-      ctx.lineWidth = borda;
-      ctx.beginPath();
-      ctx.roundRect(quadroX, quadroY, quadroW, quadroH, raio);
-      ctx.stroke();
-
-      // 3. QR centralizado dentro do quadro com respiro de 8%
-      const respiro = 0.08;
-      const qrTamanho = Math.min(quadroW, quadroH) * (1 - respiro*2);
-      const qrX = quadroX + (quadroW - qrTamanho) / 2;
-      const qrY = quadroY + (quadroH - qrTamanho) / 2;
-
-      ctx.drawImage(qr, qrX, qrY, qrTamanho, qrTamanho);
-      
-      if (section) section.style.display = "block";
-    }; 
-    qr.src = qrData;
-  }; 
-  base.src = "adesivo-porta-base.png";
 }
-
   function gerarAdesivo() {
     const canvas = document.getElementById("adesivoCanvas"); const section = document.getElementById("adesivoSection");
     if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
