@@ -96,9 +96,9 @@ if (!qrData) return;
 
 const qr = new Image();
     qr.onload = () => {
-        const tamanho = canvas.width * 0.32;
+        const tamanho = canvas.width * 0.42;
         const x = (canvas.width - tamanho) / 2;
-        const y = canvas.height * 0.19;
+        const y = canvas.height-tamanho)/2;
 
         ctx.fillStyle = "#fff";
         ctx.fillRect(x - 2, y - 2, tamanho + 4, tamanho + 4);
