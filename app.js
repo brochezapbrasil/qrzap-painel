@@ -130,9 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.drawImage(qr, x, y, tamanho, tamanho);
 
     if (section) section.style.display = "block";
-      }; qr.src = qrData;
-    }; base.src = "adesivo-porta-base.png";
-  }
+};
+
+qr.src = qrData;
+};
+
+base.src = "adesivo-porta-base.png";
+}
 
   document.getElementById("baixarQR").onclick = () => { const d=getQrDataUrl(); if(!d) return alert("Gere o QR primeiro."); baixar("QR-ZAP.png", d); };
   document.getElementById("imprimirQR").onclick = () => { const d=getQrDataUrl(); if(!d) return alert("Gere o QR primeiro."); imprimirDataUrl(d); };
