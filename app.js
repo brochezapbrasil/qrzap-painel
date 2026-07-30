@@ -140,17 +140,56 @@ function gerarCertificadoOficial(empresa) {
     }; base.src = "selo-base.png";
   }
 
-  function gerarQrAzul() {
-    const canvas = document.getElementById("qrAzulCanvas"); const section = document.getElementById("qrAzulSection");
-    if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
-    base.onload = () => {
-      canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
-      const qrSize = canvas.width * 0.36; const qrX = (canvas.width - qrSize)/2; const qrY = (canvas.height - qrSize)/2 - (canvas.height*0.01);
-      ctx.fillStyle = "#fff"; ctx.fillRect(qrX, qrY, qrSize, qrSize);
-      const qrDataUrl = getQrDataUrl(); if (!qrDataUrl) return; const qrImg = new Image();
-      qrImg.onload = () => { ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize); if (section) section.style.display = "block"; };
-      qrImg.src = qrDataUrl;
-    }; base.src = "qr-azul-base.png";
+  function gerarAdesivo() {
+  const canvas = document.getElementById("adesivoCanvas"); 
+  const section = document.getElementById("adesivoSection");
+  if (!canvas) return; 
+  const ctx = canvas.getContext("2d"); 
+  const base = new Image();
+  
+  base.onload = () => {
+    canvas.width = base.width; 
+    canvas.height = base.height; 
+    ctx.drawImage(base, 0, 0);
+    
+    const qrData = getQrDataUrl(); 
+    if (!qrData) { if(section) section.style.display="block"; return; }
+    
+    const qr = new Image();
+    qr.onload = () => {
+      // ===== MEDIDAS CERTAS DO QUADRO VERDE - BASE FINAL =====
+      const quadroX = canvas.width * 0.632;  // início na horizontal
+      const quadroY = canvas.height * 0.082; // início na vertical
+      const quadroW = canvas.width * 0.324;  // largura do quadro
+      const quadroH = canvas.height * 0.648; // altura do quadro
+      const raio = canvas.width * 0.015;     // arredondado
+      const borda = canvas.width * 0.007;    // espessura da borda verde
+
+      // 1. Limpa a área (remove qualquer sujeira que tinha por baixo)
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(quadroX, quadroY, quadroW, quadroH);
+
+      // 2. Desenha o quadro verde por cima, na medida certa
+      ctx.strokeStyle = "#1a9d5f"; // verde do BrocheZap
+      ctx.lineWidth = borda;
+      ctx.beginPath();
+      ctx.roundRect(quadroX, quadroY, quadroW, quadroH, raio);
+      ctx.stroke();
+
+      // 3. QR centralizado dentro do quadro com respiro de 8%
+      const respiro = 0.08;
+      const qrTamanho = Math.min(quadroW, quadroH) * (1 - respiro*2);
+      const qrX = quadroX + (quadroW - qrTamanho) / 2;
+      const qrY = quadroY + (quadroH - qrTamanho) / 2;
+
+      ctx.drawImage(qr, qrX, qrY, qrTamanho, qrTamanho);
+      
+      if (section) section.style.display = "block";
+    }; 
+    qr.src = qrData;
+  }; 
+  base.src = "adesivo-porta-base.png";
+}
   }
 
   function gerarAdesivo() {
