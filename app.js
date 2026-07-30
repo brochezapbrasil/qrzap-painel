@@ -173,9 +173,9 @@ function gerarCertificadoOficial(empresa) {
 
         const qr = new Image();
         qr.onload = () => {
-            const tamanho = canvas.width * 0.380;
-            const x = canvas.width * 0.1020;
-            const y = canvas.height * 0.82;
+            const tamanho = canvas.width * 0.247;
+const x = canvas.width * 0.664;
+const y = canvas.height * 0.102;
 
             ctx.fillStyle = "#fff";
             ctx.fillRect(x - 2, y - 2, tamanho + 4, tamanho + 4);
@@ -189,7 +189,6 @@ function gerarCertificadoOficial(empresa) {
 
     base.src = "adesivo-porta-base.png";
 }   
-  }
 
   document.getElementById("baixarQR").onclick = () => { const d=getQrDataUrl(); if(!d) return alert("Gere o QR primeiro."); baixar("QR-ZAP.png", d); };
   document.getElementById("imprimirQR").onclick = () => { const d=getQrDataUrl(); if(!d) return alert("Gere o QR primeiro."); imprimirDataUrl(d); };
