@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.fillStyle = "#fff"; ctx.fillRect(x-2, y-2, tamanho+4); ctx.drawImage(qr, x, y, tamanho, tamanho);
         if (section) section.style.display = "block";
       }; qr.src = qrData;
-    }; base.src = "selo-base.png";
+    }; base.src = "selo-base-v2.png";
   }
 
   function gerarQrAzul() {
