@@ -114,15 +114,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Área interna da moldura verde da nova arte
     const quadroX = canvas.width * 0.665;
-    const quadroY = canvas.height * 0.088;
-    const quadroW = canvas.width * 0.285;
-    const quadroH = canvas.height * 0.585;
+const quadroY = canvas.height * 0.088;
+const quadroW = canvas.width * 0.285;
+const quadroH = canvas.height * 0.585;
 
-    // QR ocupando aproximadamente 90% da área
-    const tamanho = Math.min(quadroW, quadroH) * 0.90;
+const tamanho = Math.min(quadroW, quadroH) * 0.84;
 
-    const x = quadroX + (quadroW - tamanho) / 2;
-    const y = quadroY + (quadroH - tamanho) / 2;
+const x = quadroX + (quadroW - tamanho) / 2;
+const y = quadroY + (quadroH - tamanho) / 2;
 
     ctx.fillStyle = "#fff";
     ctx.fillRect(x - 2, y - 2, tamanho + 4, tamanho + 4);
