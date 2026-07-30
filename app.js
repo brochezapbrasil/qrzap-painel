@@ -96,7 +96,7 @@ if (!qrData) return;
 
 const qr = new Image();
     qr.onload = () => {
-        const tamanho = canvas.width * 0.22;
+        const tamanho = canvas.width * 0.32;
         const x = (canvas.width - tamanho) / 2;
         const y = canvas.height * 0.19;
 
