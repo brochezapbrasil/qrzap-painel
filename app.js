@@ -200,7 +200,6 @@ function gerarAdesivo() {
   }; 
   base.src = "adesivo-porta-base.png";
 }
-  }
 
   function gerarAdesivo() {
     const canvas = document.getElementById("adesivoCanvas"); const section = document.getElementById("adesivoSection");
