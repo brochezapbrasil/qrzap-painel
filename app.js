@@ -79,15 +79,31 @@ document.addEventListener("DOMContentLoaded", () => {
   function gerarSelo() {
     const canvas = document.getElementById("seloCanvas"); const section = document.getElementById("seloSection");
     if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
-    base.onload = () => {
-      canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0);
-      const qrData = getQrDataUrl(); if (!qrData) return; const qr = new Image();
-      qr.onload = () => {
-        const tamanho = canvas.width * 0.22; const x = (canvas.width - tamanho)/2; const y = canvas.height * 0.19;
-        ctx.fillStyle = "#fff"; ctx.fillRect(x-2, y-2, tamanho+4); ctx.drawImage(qr, x, y, tamanho, tamanho);
+    base.onerror = () => alert("Erro ao carregar selo-base-v2.png");
+
+base.onload = () => {
+    canvas.width = base.width;
+    canvas.height = base.height;
+    ctx.drawImage(base, 0, 0);
+
+    const qr = new Image();
+    qr.onload = () => {
+        const tamanho = canvas.width * 0.22;
+        const x = (canvas.width - tamanho) / 2;
+        const y = canvas.height * 0.19;
+
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(x - 2, y - 2, tamanho + 4, tamanho + 4);
+
+        ctx.drawImage(qr, x, y, tamanho, tamanho);
+
         if (section) section.style.display = "block";
-      }; qr.src = qrData;
-    }; base.src = "selo-base-v2.png";
+    };
+
+    qr.src = qrData;
+};
+
+base.src = "selo-base-v2.png";
   }
 
   function gerarQrAzul() {
