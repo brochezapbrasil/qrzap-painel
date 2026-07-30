@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
     base.onload = () => {
       canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
-      const qrSize = canvas.width * 0.33; const qrX = (canvas.width - qrSize)/2; const qrY = (canvas.height - qrSize)/2 - (canvas.height*0.01);
+      const qrSize = canvas.width * 0.30; const qrX = (canvas.width - qrSize)/2; const qrY = (canvas.height - qrSize)/2 - (canvas.height*0.01);
       ctx.fillStyle = "#fff"; ctx.fillRect(qrX, qrY, qrSize, qrSize);
       const qrDataUrl = getQrDataUrl(); if (!qrDataUrl) return; const qrImg = new Image();
       qrImg.onload = () => { ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize); if (section) section.style.display = "block"; };
