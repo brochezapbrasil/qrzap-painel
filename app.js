@@ -73,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const qrData = getQrDataUrl(); if (!qrData) return;
         const qr = new Image();
         qr.onload = () => {
-            const tamanho = canvas.width * 0.45; // tamanho do QR dentro do selo roxo
+            const tamanho = canvas.width * 0.36; // tamanho do QR dentro do selo roxo
             const x = (canvas.width - tamanho) / 2;
-            const y = (canvas.height - tamanho) / 2 - (canvas.height * 0.02); // CORREÇÃO: antes estava height*2
+            const y = (canvas.height - tamanho) / 2- (canvas.height * 0.024); // CORREÇÃO: antes estava height*2
             ctx.fillStyle = "#fff";
 ctx.fillRect(x - 6, y - 6, tamanho + 12, tamanho + 12);
 ctx.drawImage(qr, x, y, tamanho, tamanho);
