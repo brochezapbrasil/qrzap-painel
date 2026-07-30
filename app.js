@@ -112,24 +112,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const qr = new Image();
       qr.onload = () => {
 
-    // Área interna da moldura verde
+    // Área onde ficará o QR
 const quadroX = canvas.width * 0.665;
 const quadroY = canvas.height * 0.088;
 const quadroW = canvas.width * 0.285;
 const quadroH = canvas.height * 0.585;
 
-// Margem igual em todos os lados
-const margem = Math.min(quadroW, quadroH) * 0.05;
+// QR ocupando toda a área disponível
+const tamanho = Math.min(quadroW, quadroH);
 
-// Tamanho do QR
-const tamanho = Math.min(quadroW, quadroH) - (margem * 2);
-
-// Centralização perfeita
 const x = quadroX + (quadroW - tamanho) / 2;
 const y = quadroY + (quadroH - tamanho) / 2;
 
+// Apenas fundo branco
 ctx.fillStyle = "#fff";
-ctx.fillRect(x - 2, y - 2, tamanho + 4, tamanho + 4);
+ctx.fillRect(x, y, tamanho, tamanho);
+
+// Desenha o QR sem moldura
 ctx.drawImage(qr, x, y, tamanho, tamanho);
 
     if (section) section.style.display = "block";
