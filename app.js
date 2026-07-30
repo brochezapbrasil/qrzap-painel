@@ -77,8 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const x = (canvas.width - tamanho) / 2;
             const y = (canvas.height - tamanho) / 2 - (canvas.height * 0.02); // CORREÇÃO: antes estava height*2
             ctx.fillStyle = "#fff";
-            ctx.fillRect(x-6, y-6, tamanho+12);
-            ctx.drawImage(qr, x, y, tamanho, tamanho);
+ctx.fillRect(x - 6, y - 6, tamanho + 12, tamanho + 12);
+ctx.drawImage(qr, x, y, tamanho, tamanho);
             if (section) section.style.display = "block";
         };
         qr.src = qrData;
