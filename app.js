@@ -86,43 +86,53 @@ ctx.fillText(
     img.src = "certificado-base.png";
 }
 
-function gerarCertificadoOficial(empresa) {
-    const canvas = document.getElementById("certificadoOficialCanvas");
-    if (!canvas) return;
+function gerarAdesivo() {
+  const canvas = document.getElementById("adesivoCanvas"); 
+  const section = document.getElementById("adesivoSection");
+  if (!canvas) return; 
+  const ctx = canvas.getContext("2d"); 
+  const base = new Image();
+  
+  base.onload = () => {
+    canvas.width = base.width; 
+    canvas.height = base.height; 
+    ctx.drawImage(base, 0, 0);
+    
+    const qrData = getQrDataUrl(); 
+    if (!qrData) { if(section) section.style.display="block"; return; }
+    
+    const qr = new Image();
+    qr.onload = () => {
+      // MEDIDA EXATA DA SUA BASE FINAL "ACESSIBILIDADE PARA TODOS"
+      const quadroX = canvas.width * 0.632;
+      const quadroY = canvas.height * 0.078;
+      const quadroW = canvas.width * 0.324;
+      const quadroH = canvas.height * 0.652;
 
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
+      // 1. Limpa tudo que tava por baixo do branco
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(quadroX, quadroY, quadroW, quadroH);
 
-    img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
+      // 2. QR com respiro de 7% centralizado vertical e horizontal
+      const padding = quadroW * 0.07;
+      const tamanho = quadroW - (padding * 2);
+      const x = quadroX + padding;
+      const y = quadroY + (quadroH - tamanho) / 2; // ISSO QUE CORRIGE SEU ERRO DO PRINT
 
-        ctx.drawImage(img, 0, 0);
-
-        // Nome da empresa
-        ctx.fillStyle = "#3d247a";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
-        let tamanhoFonte = 78;
-        const larguraMaxima = canvas.width * 0.78;
-
-        ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
-
-        while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 30) {
-            tamanhoFonte -= 2;
-            ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
-        }
-
-        ctx.fillText(
-            empresa,
-            canvas.width / 2,
-            canvas.height * 0.43
-        );
-
-    };
-
-    img.src = "certificado-oficial.png";
+      ctx.drawImage(qr, x, y, tamanho, tamanho);
+      
+      // 3. Redesenha borda verde por cima pra ficar perfeita
+      ctx.strokeStyle = "#1a9d5f";
+      ctx.lineWidth = canvas.width * 0.008;
+      ctx.lineJoin = "round";
+      ctx.strokeRect(quadroX, quadroY, quadroW, quadroH);
+      
+      if (section) section.style.display = "block";
+    }; 
+    qr.src = qrData;
+  }; 
+  base.src = "adesivo-porta-base.png"; // usa a base limpa que te mandei
+}
 }
 
   function gerarSelo() {
