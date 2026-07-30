@@ -86,6 +86,43 @@ ctx.fillText(
     img.src = "certificado-base.png";
 }
 
+function gerarCertificadoOficial(empresa) {
+    const canvas = document.getElementById("certificadoOficialCanvas");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
+
+        // Nome da empresa
+        ctx.fillStyle = "#3d247a";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        let tamanhoFonte = 78;
+        const larguraMaxima = canvas.width * 0.78;
+
+        ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+
+        while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 30) {
+            tamanhoFonte -= 2;
+            ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+        }
+
+        ctx.fillText(
+            empresa,
+            canvas.width / 2,
+            canvas.height * 0.43
+        );
+
+    };
+
+    img.src = "certificado-oficial.png";
 }
 
   function gerarSelo() {
@@ -102,7 +139,20 @@ ctx.fillText(
       }; qr.src = qrData;
     }; base.src = "selo-base.png";
   }
-}
+
+  function gerarQrAzul() {
+    const canvas = document.getElementById("qrAzulCanvas"); const section = document.getElementById("qrAzulSection");
+    if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
+    base.onload = () => {
+      canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
+      const qrSize = canvas.width * 0.36; const qrX = (canvas.width - qrSize)/2; const qrY = (canvas.height - qrSize)/2 - (canvas.height*0.01);
+      ctx.fillStyle = "#fff"; ctx.fillRect(qrX, qrY, qrSize, qrSize);
+      const qrDataUrl = getQrDataUrl(); if (!qrDataUrl) return; const qrImg = new Image();
+      qrImg.onload = () => { ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize); if (section) section.style.display = "block"; };
+      qrImg.src = qrDataUrl;
+    }; base.src = "qr-azul-base.png";
+  }
+
   function gerarAdesivo() {
     const canvas = document.getElementById("adesivoCanvas"); const section = document.getElementById("adesivoSection");
     if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
