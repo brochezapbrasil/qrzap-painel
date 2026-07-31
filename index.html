@@ -6,7 +6,7 @@
 <title>QR ZAP - Painel</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script defer src="app.js?v=52"></script>
+<script defer src="app.js?v=53"></script>
 </head>
 <body>
 <header class="topo">
@@ -16,117 +16,96 @@
 <main class="container">
   <section class="card" style="background:#f0fdf4;border:2px solid #22c55e;">
     <h2>🎉 Bem-vindo ao Kit Digital QR ZAP</h2>
-
     <p>Preencha os dados da empresa abaixo para personalizar seu Kit Digital QR ZAP. Após o preenchimento, os arquivos serão gerados automaticamente para download..</p>
-
     <ul>
         <li>📜 Certificado Oficial</li>
         <li>🏅 Selo Empresa Acessível</li>
         <li>🔵 Plaquinha QR Azul</li>
         <li>🚪 Adesivo Oficial para Porta</li>
     </ul>
-
     <p><strong>⬇️ Preencha os dados abaixo para personalizar os arquivos.</strong></p>
   </section>  
 
-    <section class="card" style="text-align:center;">
-  <h2>📖 Manual Oficial do Kit Digital QR ZAP</h2>
+  <section class="card" style="text-align:center;">
+    <h2>📖 Manual Oficial do Kit Digital QR ZAP</h2>
+    <p>Conheça o funcionamento do Kit Digital, a finalidade de cada material e as orientações para utilização da iniciativa QR ZAP.</p>
+    <a href="manual-qr-zap.html" target="_blank" style="display:inline-block;margin-top:15px;background:#5B2A9D;color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:bold;">📖 Abrir Manual Oficial</a>
+  </section>
 
-  <p>
-    Conheça o funcionamento do Kit Digital, a finalidade de cada material
-    e as orientações para utilização da iniciativa QR ZAP.
-  </p>
+  <section class="card">
+    <h2>Dados da Empresa</h2>
+    
+    <label>Nome da Empresa</label>
+    <input id="empresa" type="text" placeholder="Ex.: Farmácia Central">
 
-  <a href="manual-qr-zap.html"
-     target="_blank"
-     style="
-       display:inline-block;
-       margin-top:15px;
-       background:#5B2A9D;
-       color:#fff;
-       padding:14px 28px;
-       border-radius:8px;
-       text-decoration:none;
-       font-weight:bold;">
-       📖 Abrir Manual Oficial
-  </a>
-</section>
-<section class="card">
-<h2>Dados da Empresa</h2>
-<label>Nome da Empresa</label>
-<input id="empresa" type="text" placeholder="Ex.: Farmácia Central">
-<label>WhatsApp</label>
-<input id="telefone" type="tel" placeholder="5518999999999">
-<label>Mensagem de acolhimento</label>
-<textarea id="mensagem">Olá! Estou neste estabelecimento e prefiro me comunicar por mensagem. Por favor, responda por este chat para que possamos conversar. Obrigado(a)!</textarea>
-<button id="gerarKit">Gerar Kit</button>
-</section>
-<section class="card">
-<h2>Pré-visualização</h2>
-<div id="previewQR">
-<div id="qrCode"></div>
-<h3 id="empresaPreview"></h3>
-<p id="telefonePreview"></p>
-<div class="acoesQR">
-<button id="baixarQR" type="button">📥 Baixar QR</button>
-<button id="imprimirQR" type="button">🖨️ Imprimir QR</button>
-</div>
-</div>
+    <label>CNPJ da Empresa</label>
+    <input id="cnpj" type="text" placeholder="00.000.000/0000-00" maxlength="18">
 
-<section id="certificadoSection" style="display:none;">
-    <h2>📄 Certificado Oficial QR ZAP</h2>
-    <canvas id="certificadoCanvas"></canvas>
-    <div class="acoesQR">
-        <button id="baixarCertificado">📄 Baixar Certificado</button>
+    <label>Data da Adesão</label>
+    <input id="dataAdesao" type="date">
+
+    <label>WhatsApp</label>
+    <input id="whatsapp" type="tel" placeholder="5518999999999">
+    <!-- mantido id antigo para compatibilidade, escondido -->
+    <input id="telefone" type="hidden">
+
+    <label>Mensagem de acolhimento</label>
+    <textarea id="mensagem">Olá! Estou neste estabelecimento e prefiro me comunicar por mensagem. Por favor, responda por este chat para que possamos conversar. Obrigado(a)!</textarea>
+    <button id="gerarKit">Gerar Kit</button>
+  </section>
+
+  <section class="card">
+    <h2>Pré-visualização</h2>
+    <div id="previewQR">
+      <div id="qrCode"></div>
+      <h3 id="empresaPreview"></h3>
+      <p id="telefonePreview"></p>
+      <div class="acoesQR">
+        <button id="baixarQR" type="button">📥 Baixar QR</button>
+        <button id="imprimirQR" type="button">🖨️ Imprimir QR</button>
+      </div>
     </div>
+
+    <section id="certificadoSection" style="display:none;">
+        <h2>📄 Certificado Oficial QR ZAP</h2>
+        <canvas id="certificadoCanvas"></canvas>
+        <div class="acoesQR">
+            <button id="baixarCertificado">📄 Baixar Certificado</button>
+        </div>
+    </section>
+
     <section id="certificadoOficialSection" style="display:none;">
-    <h2>📜 Certificado Oficial de Adesão QR ZAP</h2>
+        <h2>📜 Certificado Oficial de Adesão QR ZAP</h2>
+        <canvas id="certificadoOficialCanvas"></canvas>
+        <div class="acoesQR">
+            <button id="baixarCertificadoOficial" type="button">📄 Baixar Certificado Oficial</button>
+        </div>
+    </section>
 
-    <canvas id="certificadoOficialCanvas"></canvas>
+    <section id="seloSection" style="display:none; margin-top:20px;">
+        <h2>🏅 Selo Oficial QR ZAP</h2>
+        <canvas id="seloCanvas" style="max-width:100%; width:100%; display:block; margin:10px auto; border-radius:12px;"></canvas>
+        <div class="acoesQR">
+            <button id="baixarSelo" type="button">📥 Baixar Selo Oficial</button>
+        </div>
+    </section>
 
-    <div class="acoesQR">
-        <button id="baixarCertificadoOficial" type="button">
-            📄 Baixar Certificado Oficial
-        </button>
-    </div>
-</section>
-</section>
-<section id="seloSection" style="display:none; margin-top:20px;">
-    <h2>🏅 Selo Oficial QR ZAP</h2>
+    <section id="qrAzulSection" style="display:none; margin-top:20px;">
+        <h2>🔵 Plaquinha Oficial QR Azul</h2>
+        <canvas id="qrAzulCanvas" style="max-width:100%; width:100%; display:block; margin:10px auto; border-radius:12px;"></canvas>
+        <div class="acoesQR">
+            <button id="baixarQrAzul" type="button">📥 Baixar QR Azul Oficial</button>
+        </div>
+    </section>
 
-    <canvas id="seloCanvas"
-        style="max-width:100%; width:100%; display:block; margin:10px auto; border-radius:12px;">
-    </canvas>
-
-    <div class="acoesQR">
-        <button id="baixarSelo" type="button">
-            📥 Baixar Selo Oficial
-        </button>
-    </div>
-</section>
-<section id="qrAzulSection" style="display:none; margin-top:20px;">
-    <h2>🔵 Plaquinha Oficial QR Azul</h2>
-    <canvas id="qrAzulCanvas" style="max-width:100%; width:100%; display:block; margin:10px auto; border-radius:12px;"></canvas>
-    <div class="acoesQR">
-        <button id="baixarQrAzul" type="button">📥 Baixar QR Azul Oficial</button>
-    </div>
-</section>
-<section id="adesivoSection" style="display:none; margin-top:20px;">
-    <h2>🚪 Adesivo Oficial para Porta</h2>
-
-    <canvas id="adesivoCanvas"
-        style="max-width:100%;width:100%;display:block;margin:10px auto;border-radius:12px;">
-    </canvas>
-
-    <div class="acoesQR">
-        <button id="baixarAdesivo" type="button">
-            📥 Baixar Adesivo Oficial
-        </button>
-    </div>
-</section>
+    <section id="adesivoSection" style="display:none; margin-top:20px;">
+        <h2>🚪 Adesivo Oficial para Porta</h2>
+        <canvas id="adesivoCanvas" style="max-width:100%;width:100%;display:block;margin:10px auto;border-radius:12px;"></canvas>
+        <div class="acoesQR">
+            <button id="baixarAdesivo" type="button">📥 Baixar Adesivo Oficial</button>
+        </div>
+    </section>
+  </section>
 </main>
-
-<script src="app.js"></script>
-
 </body>
 </html>
