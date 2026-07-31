@@ -56,39 +56,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- CERTIFICADO OFICIAL COM CNPJ E DATA NAS POSIÇÕES EXATAS ---
-  function gerarCertificadoOficial(empresa, cnpj, data) {
+    function gerarCertificadoOficial(empresa, cnpj, data) {
     const canvas = document.getElementById("certificadoOficialCanvas"); if (!canvas) return;
     const ctx = canvas.getContext("2d"); const img = new Image();
     img.onload = () => {
-        canvas.width = img.width; canvas.height = img.height; ctx.drawImage(img, 0, 0);
+        canvas.width = img.width; canvas.height = img.height; 
+        ctx.drawImage(img, 0, 0);
 
-        // 1. NOME DA EMPRESA - topo, centralizado
-        const xEmpresa = canvas.width * 0.50;
-        const yEmpresa = canvas.height * 0.33;
-        ctx.fillStyle = "#1a2a4a";
+        // --- COORDENADAS CORRIGIDAS PARA SEU LAYOUT ---
+        const xEmpresa = canvas.width * 0.50; // centro
+        const yEmpresa = canvas.height * 0.24; // SUBI de 0.33 para 0.24 (acima do título)
+
+        const xData = canvas.width * 0.188; // esquerda
+        const yData = canvas.height * 0.735; // um pouco acima
+
+        const xCnpj = canvas.width * 0.405; // meio-esquerda
+        const yCnpj = canvas.height * 0.742;
+
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        let tamanhoFonte = 48;
-        const larguraMaxima = canvas.width * 0.58;
+
+        // 1. NOME DA EMPRESA
+        ctx.fillStyle = "#1a2a4a";
+        let tamanhoFonte = 42;
+        const larguraMaxima = canvas.width * 0.55;
         ctx.font = `bold ${tamanhoFonte}px Arial`;
-        while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 20) {
+        while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 18) {
           tamanhoFonte -= 2;
           ctx.font = `bold ${tamanhoFonte}px Arial`;
         }
         ctx.fillText(empresa, xEmpresa, yEmpresa);
 
-        // 2. DATA DE ADESÃO - traço da esquerda
-        const xData = canvas.width * 0.255;
-        const yData = canvas.height * 0.705;
-        ctx.fillStyle = "#1a2a4a";
-        ctx.font = "bold 22px Arial";
-        ctx.textAlign = "center";
+        // 2. DATA
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 18px Arial";
         ctx.fillText(data, xData, yData);
 
-        // 3. CNPJ - traço do meio
-        const xCnpj = canvas.width * 0.505;
-        const yCnpj = canvas.height * 0.71;
-        ctx.font = "bold 22px Arial";
+        // 3. CNPJ
+        ctx.font = "bold 16px Arial";
         ctx.fillText(cnpj, xCnpj, yCnpj);
     };
     img.src = "certificado-oficial.png";
