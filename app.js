@@ -65,27 +65,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // --- COORDENADAS CORRIGIDAS PARA SEU LAYOUT ---
         // Nome da empresa
-const xEmpresa = canvas.width * 0.60;
-const yEmpresa = canvas.height * 0.24;
+const xEmpresa = 760;
+const yEmpresa = 250;
 
 // Data
-const xData = canvas.width * 0.215;
-const yData = canvas.height * 0.705;
+const xData = 350;
+const yData = 735;
 
 // CNPJ
-const xCnpj = canvas.width * 0.49;
-const yCnpj = canvas.height * 0.705;
+const xCnpj = 805;
+const yCnpj = 735;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
         // 1. NOME DA EMPRESA
         ctx.fillStyle = "#1a2a4a";
-        let tamanhoFonte = 42;
+        let tamanhoFonte = 36;
         const larguraMaxima = canvas.width * 0.55;
-        ctx.font = `bold ${tamanhoFonte}px Arial`;
+        ctx.font = "bold 18px Arial";
         while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 18) {
           tamanhoFonte -= 2;
-          ctx.font = `bold ${tamanhoFonte}px Arial`;
+          ctx.font = "bold 18px Arial";
         }
         ctx.fillText(empresa, xEmpresa, yEmpresa);
 
