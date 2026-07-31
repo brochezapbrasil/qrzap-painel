@@ -70,11 +70,11 @@ const yEmpresa = 250;
 
 // Data
 const xData = 350;
-const yData = 690;
+const yData = 718;
 
 // CNPJ
 const xCnpj = 805;
-const yCnpj = 690;
+const yCnpj = 718;
         ctx.textAlign = "center";
         ctx.textBaseline = "alphabetic";
 
