@@ -64,15 +64,17 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.drawImage(img, 0, 0);
 
         // --- COORDENADAS CORRIGIDAS PARA SEU LAYOUT ---
-        const xEmpresa = canvas.width * 0.50; // centro
-        const yEmpresa = canvas.height * 0.24; // SUBI de 0.33 para 0.24 (acima do título)
+        // Nome da empresa
+const xEmpresa = canvas.width * 0.60;
+const yEmpresa = canvas.height * 0.24;
 
-        const xData = canvas.width * 0.188; // esquerda
-        const yData = canvas.height * 0.735; // um pouco acima
+// Data
+const xData = canvas.width * 0.215;
+const yData = canvas.height * 0.705;
 
-        const xCnpj = canvas.width * 0.405; // meio-esquerda
-        const yCnpj = canvas.height * 0.742;
-
+// CNPJ
+const xCnpj = canvas.width * 0.49;
+const yCnpj = canvas.height * 0.705;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
@@ -87,14 +89,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         ctx.fillText(empresa, xEmpresa, yEmpresa);
 
-        // 2. DATA
-        ctx.fillStyle = "#000";
-        ctx.font = "bold 18px Arial";
-        ctx.fillText(data, xData, yData);
+        // DATA
+ctx.fillStyle = "#000";
+ctx.font = "bold 20px Arial";
+ctx.fillText(data, xData, yData);
 
-        // 3. CNPJ
-        ctx.font = "bold 16px Arial";
-        ctx.fillText(cnpj, xCnpj, yCnpj);
+// CNPJ
+ctx.font = "bold 20px Arial";
+ctx.fillText(cnpj, xCnpj, yCnpj);
     };
     img.src = "certificado-oficial.png";
   }
