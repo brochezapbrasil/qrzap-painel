@@ -70,13 +70,13 @@ const yEmpresa = 250;
 
 // Data
 const xData = 350;
-const yData = 705;
+const yData = 690;
 
 // CNPJ
 const xCnpj = 805;
-const yCnpj = 705;
+const yCnpj = 690;
         ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
+        ctx.textBaseline = "alphabetic";
 
         // 1. NOME DA EMPRESA
         ctx.fillStyle = "#1a2a4a";
