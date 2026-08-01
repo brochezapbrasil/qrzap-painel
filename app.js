@@ -106,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillText(cnpj, xCnpj, yCnpj);
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
-}
   }
 
   // --- CERTIFICADO OFICIAL - VERSÃO FINAL CORRIGIDA y=455 ---
