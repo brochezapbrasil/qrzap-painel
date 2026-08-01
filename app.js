@@ -56,39 +56,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- CERTIFICADO OFICIAL - COORDENADAS FINAIS CORRIGIDAS ---
-  function gerarCertificadoOficial(empresa, cnpj, data) {
-    const canvas = document.getElementById("certificadoOficialCanvas"); if (!canvas) return;
-    const ctx = canvas.getContext("2d"); const img = new Image();
+    function gerarCertificadoOficial(empresa, cnpj, data) {
+    const canvas = document.getElementById("certificadoOficialCanvas"); 
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d"); 
+    const img = new Image();
     img.onload = () => {
-        canvas.width = img.width; canvas.height = img.height; 
+        canvas.width = img.width; 
+        canvas.height = img.height; 
         ctx.drawImage(img, 0, 0);
 
-        // COORDENADAS QUE FUNCIONARAM NO SEU PRINT
-        const xEmpresa = canvas.width * 0.68; // 68% - lado direito do logo
-        const yEmpresa = canvas.height * 0.35; // 35% - desceu do 250px
+        // --- POSIÇÕES FINAIS - NÃO MEXE MAIS EM DATA E CNPJ ---
+        const xEmpresa = canvas.width * 0.78; // direita, ao lado do selo azul
+        const yEmpresa = canvas.height * 0.29; // acima do título, não em cima dele
 
         const xData = 350;
-        const yData = 718;
+        const yData = 718; // já está perfeito no seu print
 
         const xCnpj = 805;
-        const yCnpj = 718;
+        const yCnpj = 718; // já está perfeito
 
-        // EMPRESA - AGORA GRANDE E VISÍVEL
+        // EMPRESA - PEQUENA NO TOPO DIREITO
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#1a2a4a";
-        let tamanhoFonte = 28;
-        ctx.font = `bold ${tamanhoFonte}px Arial`;
-        const maxW = canvas.width * 0.38;
-        while (ctx.measureText(empresa).width > maxW && tamanhoFonte > 14) {
-          tamanhoFonte -= 1;
-          ctx.font = `bold ${tamanhoFonte}px Arial`;
+        ctx.font = "bold 20px Arial";
+        // quebra linha se for muito grande
+        let nome = empresa;
+        if (ctx.measureText(nome).width > canvas.width * 0.22) {
+          // encurta
+          while (ctx.measureText(nome + "...").width > canvas.width * 0.22 && nome.length > 10) {
+            nome = nome.slice(0, -1);
+          }
+          nome += "...";
         }
-        ctx.fillText(empresa, xEmpresa, yEmpresa);
+        ctx.fillText(nome, xEmpresa, yEmpresa);
 
-        // DATA e CNPJ - já estavam certos
+        // DATA E CNPJ
         ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
         ctx.fillStyle = "#000";
         ctx.font = "bold 20px Arial";
         ctx.fillText(data, xData, yData);
