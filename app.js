@@ -93,11 +93,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // NOME — entre o fim do título (~398) e a linha (~445)
       const xEmpresa = canvas.width / 2; // 768 para 1536px de largura
-      const yEmpresa = 436;
+      const yEmpresa = 428;
 
       // fundo branco atrás do nome, pra nunca sobrepor título/linha
       ctx.fillStyle = "#fff";
-      ctx.fillRect(xEmpresa - 520, yEmpresa - 34, 1040, 42);
+      ctx.fillRect(xEmpresa - 520, yEmpresa - 34, 1040, 38);
 
       // DATA E CNPJ — logo abaixo da linha dos campos (y≈705)
       const xData = 404;
@@ -109,7 +109,7 @@ const yCnpj = 738;
       ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";
 
-      let tamanho = 32;
+      let tamanho = 30;
       ctx.font = `bold ${tamanho}px Arial`;
       while (ctx.measureText(empresa).width > 1000 && tamanho > 18) {
           tamanho--;
