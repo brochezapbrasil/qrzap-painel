@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // NOME NA LINHA ABAIXO DO TÍTULO "CERTIFICADO DE ADESÃO QR ZAP"
       const xEmpresa = 768;
-const yEmpresa = 435;
+const yEmpresa = 430;
 
       // DATA E CNPJ - EM CIMA DO TRAÇO
       const xData = 350;
@@ -105,7 +105,7 @@ const yEmpresa = 435;
 ctx.textAlign = "center";
 ctx.textBaseline = "alphabetic";
 
-let tamanho = 32;
+let tamanho = 34;
 ctx.font = `bold ${tamanho}px Arial`;
 
 while (ctx.measureText(empresa).width > 1080 && tamanho > 20) {
