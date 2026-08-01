@@ -64,54 +64,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 function gerarCertificadoOficial(empresa, cnpj, data) {
-  const canvas = document.getElementById("certificadoOficialCanvas"); if (!canvas) return;
-  const ctx = canvas.getContext("2d"); const img = new Image();
+  const canvas = document.getElementById("certificadoOficialCanvas"); 
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d"); 
+  const img = new Image();
   img.onload = () => {
-      canvas.width = img.width; canvas.height = img.height; 
+      canvas.width = img.width; 
+      canvas.height = img.height; 
       ctx.drawImage(img, 0, 0);
 
-      // COORDENADAS QUE FUNCIONAVAM NO SEU PRINT
+      // NOME - CORREÇÃO QUE VOCÊ ACHOU - NA FAIXA BRANCA ACIMA DO TÍTULO
       const xEmpresa = canvas.width / 2;
-      const yEmpresa = canvas.height * 0.305; // EM CIMA DA LINHA - NÃO NO TÍTULO
+      const yEmpresa = 145; // se ainda ficar um pouco baixo, troca para 135
 
+      // DATA E CNPJ - CONTINUA NO LUGAR QUE JÁ ESTAVA CERTO (718)
       const xData = 350;
       const yData = 718;
       const xCnpj = 805;
       const yCnpj = 718;
 
-      ctx.textAlign = "center"; ctx.textBaseline = "middle";
-
-      // NOME EM CIMA DA LINHA
+      // NOME ELEGANTE
       ctx.fillStyle = "#0a2a4a";
-      let tamanho = 34;
-      ctx.font = `bold ${tamanho}px Arial`;
-      while (ctx.measureText(empresa).width > canvas.width * 0.65 && tamanho > 18) {
-        tamanho -= 1;
-        ctx.font = `bold ${tamanho}px Arial`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      let tamanho = 30;
+      ctx.font = `bold ${tamanho}px "Brush Script MT", cursive`;
+      while (ctx.measureText(empresa).width > 430 && tamanho > 18) {
+          tamanho--;
+          ctx.font = `bold ${tamanho}px "Brush Script MT", cursive`;
       }
       ctx.fillText(empresa, xEmpresa, yEmpresa);
 
-      // DATA E CNPJ VOLTA PRO LUGAR
+      // DATA E CNPJ
       ctx.fillStyle = "#000";
       ctx.font = "bold 16px Arial";
       ctx.fillText(data, xData, yData);
       ctx.fillText(cnpj, xCnpj, yCnpj);
   };
   img.src = "certificado-oficial.png?v=" + Date.now();
-}
-
-  function gerarSelo() {
-    const canvas = document.getElementById("seloCanvas");
-    if (!canvas) return; const ctx = canvas.getContext("2d"); const base = new Image();
-    base.onload = () => {
-        canvas.width = base.width; canvas.height = base.height; ctx.drawImage(base, 0, 0);
-        const qrData = getQrDataUrl(); if (!qrData) return; const qr = new Image();
-        qr.onload = () => {
-            const tamanho = canvas.width * 0.45; const x = (canvas.width - tamanho) / 2; const y = (canvas.height - tamanho) / 2 - (canvas.height * 0.022);
-            ctx.fillStyle = "#fff"; ctx.fillRect(x - 6, y - 6, tamanho + 12, tamanho + 12);
-            ctx.drawImage(qr, x, y, tamanho, tamanho);
-        }; qr.src = qrData;
-    }; base.src = "selo-base-v2.png";
   }
 
   function gerarQrAzul() {
