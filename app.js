@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- CERTIFICADO OFICIAL - COORDENADAS FINAIS CORRIGIDAS ---
     function gerarCertificadoOficial(empresa, cnpj, data) {
+  function gerarCertificadoOficial(empresa, cnpj, data) {
   const canvas = document.getElementById("certificadoOficialCanvas"); 
   if (!canvas) return;
   const ctx = canvas.getContext("2d"); 
@@ -66,37 +67,37 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = img.height; 
       ctx.drawImage(img, 0, 0);
 
-      // --- COORDENADAS CERTAS - TESTADAS NO SEU PRINT ---
-      const xEmpresa = canvas.width * 0.50; // CENTRO
-      const yEmpresa = canvas.height * 0.335; // 33.5% - acima da linha, não em cima do título
+      // --- AQUI ESTÁ O SEGREDO ---
+      // Nome TEM QUE SER NO CENTRO, em cima da linha
+      const xEmpresa = canvas.width * 0.50; // 50% = CENTRO
+      const yEmpresa = canvas.height * 0.36; // 36% = logo acima do título
 
       const xData = canvas.width * 0.21;
-      const yData = canvas.height * 0.595;
+      const yData = canvas.height * 0.605;
 
       const xCnpj = canvas.width * 0.49;
-      const yCnpj = canvas.height * 0.595;
+      const yCnpj = canvas.height * 0.605;
 
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      // NOME DA EMPRESA - em cima da linha
+      // EMPRESA - agora no lugar certo
       ctx.fillStyle = "#0a2a4a";
-      let tamanho = 36;
+      let tamanho = 32;
       ctx.font = `bold ${tamanho}px Arial`;
-      // ajusta se nome for grande
-      while (ctx.measureText(empresa).width > canvas.width * 0.62 && tamanho > 18) {
+      while (ctx.measureText(empresa).width > canvas.width * 0.70 && tamanho > 16) {
         tamanho -= 2;
         ctx.font = `bold ${tamanho}px Arial`;
       }
       ctx.fillText(empresa, xEmpresa, yEmpresa);
 
-      // DATA e CNPJ - em cima da linha
-      ctx.fillStyle = "#000";
-      ctx.font = `bold ${Math.floor(canvas.width * 0.016)}px Arial`;
+      // DATA e CNPJ
+      ctx.fillStyle = "#1a1a1a";
+      ctx.font = `bold ${Math.floor(canvas.width * 0.0145)}px Arial`;
       ctx.fillText(data, xData, yData);
       ctx.fillText(cnpj, xCnpj, yCnpj);
   };
-  img.src = "certificado-oficial.png";
+  img.src = "certificado-oficial.png?v=" + Date.now();
   }
 
   function gerarSelo() {
