@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
     a.click();
   }
 
-  function gerarCertificado(empresa) {
-    const canvas = document.getElementById("certificadoCanvas");
+  function gerarCertificadoOficial(empresa, cnpj, data) {
+    const canvas = document.getElementById("certificadoOficialCanvas");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const img = new Image();
@@ -63,21 +63,50 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
+
+      const xEmpresa = canvas.width / 2;
+
+      // 1) apaga a área (título termina ~398, linha original ~445)
+      //    com folga segura dos dois lados
       ctx.fillStyle = "#fff";
-      ctx.fillRect(canvas.width * 0.18, canvas.height * 0.370, canvas.width * 0.64, canvas.height * 0.08);
-      ctx.fillStyle = "#4b1f9c";
+      ctx.fillRect(xEmpresa - 520, 404, 1040, 42);
+
+      // 2) desenha uma linha nova, própria, tipo "assinatura"
+      const yLinha = 438;
+      ctx.strokeStyle = "#0a2a4a";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(xEmpresa - 350, yLinha);
+      ctx.lineTo(xEmpresa + 350, yLinha);
+      ctx.stroke();
+
+      // 3) escreve o nome da empresa em cima da linha nova
+      const yEmpresa = 430;
+      ctx.fillStyle = "#0a2a4a";
       ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      let tamanhoFonte = 78;
-      const larguraMaxima = canvas.width * 0.60;
-      ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
-      while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 30) {
-        tamanhoFonte -= 2;
-        ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+      ctx.textBaseline = "alphabetic";
+
+      let tamanho = 30;
+      ctx.font = `bold ${tamanho}px Arial`;
+      while (ctx.measureText(empresa).width > 660 && tamanho > 16) {
+          tamanho--;
+          ctx.font = `bold ${tamanho}px Arial`;
       }
-      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
+      ctx.fillText(empresa, xEmpresa, yEmpresa);
+
+      // DATA E CNPJ
+      const xData = 404;
+      const yData = 738;
+      const xCnpj = 817;
+      const yCnpj = 738;
+
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 16px Arial";
+      ctx.fillText(data, xData, yData);
+      ctx.fillText(cnpj, xCnpj, yCnpj);
     };
-    img.src = "certificado-base.png";
+    img.src = "certificado-oficial.png?v=" + Date.now();
+}
   }
 
   // --- CERTIFICADO OFICIAL - VERSÃO FINAL CORRIGIDA y=455 ---
