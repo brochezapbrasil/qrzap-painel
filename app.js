@@ -100,10 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillRect(xEmpresa - 520, yEmpresa - 34, 1040, 42);
 
       // DATA E CNPJ — logo abaixo da linha dos campos (y≈705)
-      const xData = 375;
-      const yData = 700;
-      const xCnpj = 815;
-      const yCnpj = 700;
+      const xData = 404;
+const yData = 738;
+const xCnpj = 817;
+const yCnpj = 738;
 
       ctx.fillStyle = "#0a2a4a";
       ctx.textAlign = "center";
