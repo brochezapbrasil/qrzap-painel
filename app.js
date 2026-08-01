@@ -91,29 +91,31 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
 
-      // NOME NA LINHA ABAIXO DO TÍTULO "CERTIFICADO DE ADESÃO QR ZAP"
-      const xEmpresa = 768;
-const yEmpresa = 420;
+      // NOME — entre o fim do título (~398) e a linha (~445)
+      const xEmpresa = canvas.width / 2; // 768 para 1536px de largura
+      const yEmpresa = 436;
 
-      // DATA E CNPJ - EM CIMA DO TRAÇO
-      const xData = 350;
-      const yData = 718;
-      const xCnpj = 805;
-      const yCnpj = 718;
+      // fundo branco atrás do nome, pra nunca sobrepor título/linha
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(xEmpresa - 520, yEmpresa - 34, 1040, 42);
+
+      // DATA E CNPJ — logo abaixo da linha dos campos (y≈705)
+      const xData = 375;
+      const yData = 700;
+      const xCnpj = 815;
+      const yCnpj = 700;
 
       ctx.fillStyle = "#0a2a4a";
-ctx.textAlign = "center";
-ctx.textBaseline = "alphabetic";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "alphabetic";
 
-let tamanho = 34;
-ctx.font = `bold ${tamanho}px Arial`;
-
-while (ctx.measureText(empresa).width > 1080 && tamanho > 20) {
-    tamanho--;
-    ctx.font = `bold ${tamanho}px Arial`;
-}
-
-ctx.fillText(empresa, xEmpresa, yEmpresa);
+      let tamanho = 32;
+      ctx.font = `bold ${tamanho}px Arial`;
+      while (ctx.measureText(empresa).width > 1000 && tamanho > 18) {
+          tamanho--;
+          ctx.font = `bold ${tamanho}px Arial`;
+      }
+      ctx.fillText(empresa, xEmpresa, yEmpresa);
 
       ctx.fillStyle = "#000";
       ctx.font = "bold 16px Arial";
@@ -121,7 +123,7 @@ ctx.fillText(empresa, xEmpresa, yEmpresa);
       ctx.fillText(cnpj, xCnpj, yCnpj);
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
-  }
+}
 
   function gerarSelo() {
     const canvas = document.getElementById("seloCanvas");
