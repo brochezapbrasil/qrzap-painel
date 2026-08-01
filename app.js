@@ -226,11 +226,11 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   document.getElementById("baixarSelo").onclick = () => {
     const c = document.getElementById("seloCanvas");
-    baixar("SELO-OFICIAL.png", c.toDataURL("image/png"));
+    baixar("SELO-QRZAP.png", c.toDataURL("image/png"));
   };
   document.getElementById("baixarQrAzul").onclick = () => {
     const c = document.getElementById("qrAzulCanvas");
-    baixar("QR-AZUL-OFICIAL.png", c.toDataURL("image/png"));
+    baixar("QR-AZUL.png", c.toDataURL("image/png"));
   };
   document.getElementById("baixarAdesivo").onclick = () => {
     const c = document.getElementById("adesivoCanvas");
@@ -238,6 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   document.getElementById("baixarCertificadoOficial").onclick = () => {
     const c = document.getElementById("certificadoOficialCanvas");
-    baixar("CERTIFICADO-OFICIAL-QRZAP.png", c.toDataURL("image/png"));
+    baixar("CERTIFICADO-ADESAO-QRZAP.png", c.toDataURL("image/png"));
   };
 });
