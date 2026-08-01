@@ -56,8 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- CERTIFICADO OFICIAL - COORDENADAS FINAIS CORRIGIDAS ---
-    function gerarCertificadoOficial(empresa, cnpj, data) {
-  function gerarCertificadoOficial(empresa, cnpj, data) {
+function gerarCertificadoOficial(empresa, cnpj, data) {
   const canvas = document.getElementById("certificadoOficialCanvas"); 
   if (!canvas) return;
   const ctx = canvas.getContext("2d"); 
@@ -67,37 +66,36 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = img.height; 
       ctx.drawImage(img, 0, 0);
 
-      // --- AQUI ESTÁ O SEGREDO ---
-      // Nome TEM QUE SER NO CENTRO, em cima da linha
-      const xEmpresa = canvas.width * 0.50; // 50% = CENTRO
-      const yEmpresa = canvas.height * 0.36; // 36% = logo acima do título
+      // VOLTA PARA O QUE ESTAVA CERTO
+      const xData = 350;
+      const yData = 718;
 
-      const xData = canvas.width * 0.21;
-      const yData = canvas.height * 0.605;
+      const xCnpj = 805;
+      const yCnpj = 718;
 
-      const xCnpj = canvas.width * 0.49;
-      const yCnpj = canvas.height * 0.605;
+      // SÓ O NOME MUDA - CENTRO E ACIMA DO TÍTULO
+      const xEmpresa = canvas.width / 2;
+      const yEmpresa = canvas.height * 0.36; // 36% - em cima da linha fina
 
+      // NOME
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-
-      // EMPRESA - agora no lugar certo
       ctx.fillStyle = "#0a2a4a";
-      let tamanho = 32;
+      let tamanho = 30;
       ctx.font = `bold ${tamanho}px Arial`;
-      while (ctx.measureText(empresa).width > canvas.width * 0.70 && tamanho > 16) {
-        tamanho -= 2;
+      while (ctx.measureText(empresa).width > canvas.width * 0.60 && tamanho > 16) {
+        tamanho -= 1;
         ctx.font = `bold ${tamanho}px Arial`;
       }
       ctx.fillText(empresa, xEmpresa, yEmpresa);
 
-      // DATA e CNPJ
-      ctx.fillStyle = "#1a1a1a";
-      ctx.font = `bold ${Math.floor(canvas.width * 0.0145)}px Arial`;
+      // DATA E CNPJ - NÃO MEXE, JÁ ESTAVA CERTO
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 16px Arial";
       ctx.fillText(data, xData, yData);
       ctx.fillText(cnpj, xCnpj, yCnpj);
   };
-  img.src = "certificado-oficial.png?v=" + Date.now();
+  img.src = "certificado-oficial.png";
   }
 
   function gerarSelo() {
