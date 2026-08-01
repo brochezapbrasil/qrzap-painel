@@ -92,13 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const xEmpresa = canvas.width / 2;
 
-      // 1) apaga a área (título termina ~398, linha original ~445)
-      //    com folga segura dos dois lados
+      // 1) apaga a área (título termina ~398, linha original vai até ~450)
+      //    com folga extra embaixo pra cobrir a linha antiga por completo
       ctx.fillStyle = "#fff";
-      ctx.fillRect(xEmpresa - 520, 404, 1040, 42);
+      ctx.fillRect(xEmpresa - 520, 404, 1040, 58);
 
       // 2) desenha uma linha nova, própria, tipo "assinatura"
-      const yLinha = 438;
+      const yLinha = 448;
       ctx.strokeStyle = "#0a2a4a";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.stroke();
 
       // 3) escreve o nome da empresa em cima da linha nova
-      const yEmpresa = 430;
+      const yEmpresa = 440;
       ctx.fillStyle = "#0a2a4a";
       ctx.textAlign = "center";
       ctx.textBaseline = "alphabetic";
