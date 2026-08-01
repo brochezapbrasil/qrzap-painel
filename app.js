@@ -54,6 +54,32 @@ document.addEventListener("DOMContentLoaded", () => {
     a.click();
   }
 
+  function gerarCertificado(empresa) {
+    const canvas = document.getElementById("certificadoCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(canvas.width * 0.18, canvas.height * 0.370, canvas.width * 0.64, canvas.height * 0.08);
+      ctx.fillStyle = "#4b1f9c";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      let tamanhoFonte = 78;
+      const larguraMaxima = canvas.width * 0.60;
+      ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+      while (ctx.measureText(empresa).width > larguraMaxima && tamanhoFonte > 30) {
+        tamanhoFonte -= 2;
+        ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
+      }
+      ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
+    };
+    img.src = "certificado-base.png";
+  }
+
   function gerarCertificadoOficial(empresa, cnpj, data) {
     const canvas = document.getElementById("certificadoOficialCanvas");
     if (!canvas) return;
@@ -107,51 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
   }
-
-  // --- CERTIFICADO OFICIAL - VERSÃO FINAL CORRIGIDA y=455 ---
-  function gerarCertificadoOficial(empresa, cnpj, data) {
-    const canvas = document.getElementById("certificadoOficialCanvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      // NOME — entre o fim do título (~398) e a linha (~445)
-      const xEmpresa = canvas.width / 2; // 768 para 1536px de largura
-      const yEmpresa = 428;
-
-      // fundo branco atrás do nome, pra nunca sobrepor título/linha
-      ctx.fillStyle = "#fff";
-      ctx.fillRect(xEmpresa - 520, yEmpresa - 20, 1040, 30);
-
-      // DATA E CNPJ — logo abaixo da linha dos campos (y≈705)
-      const xData = 404;
-const yData = 738;
-const xCnpj = 817;
-const yCnpj = 738;
-
-      ctx.fillStyle = "#0a2a4a";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "alphabetic";
-
-      let tamanho = 30;
-      ctx.font = `bold ${tamanho}px Arial`;
-      while (ctx.measureText(empresa).width > 1000 && tamanho > 18) {
-          tamanho--;
-          ctx.font = `bold ${tamanho}px Arial`;
-      }
-      ctx.fillText(empresa, xEmpresa, yEmpresa);
-
-      ctx.fillStyle = "#000";
-      ctx.font = "bold 16px Arial";
-      ctx.fillText(data, xData, yData);
-      ctx.fillText(cnpj, xCnpj, yCnpj);
-    };
-    img.src = "certificado-oficial.png?v=" + Date.now();
-}
 
   function gerarSelo() {
     const canvas = document.getElementById("seloCanvas");
