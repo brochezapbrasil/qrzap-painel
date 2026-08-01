@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // fundo branco atrás do nome, pra nunca sobrepor título/linha
       ctx.fillStyle = "#fff";
-      ctx.fillRect(xEmpresa - 520, yEmpresa - 34, 1040, 38);
+      ctx.fillRect(xEmpresa - 520, yEmpresa - 20, 1040, 30);
 
       // DATA E CNPJ — logo abaixo da linha dos campos (y≈705)
       const xData = 404;
