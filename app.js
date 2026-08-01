@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // NOME NA LINHA ABAIXO DO TÍTULO "CERTIFICADO DE ADESÃO QR ZAP"
       const xEmpresa = 768;
-const yEmpresa = 430;
+const yEmpresa = 420;
 
       // DATA E CNPJ - EM CIMA DO TRAÇO
       const xData = 350;
