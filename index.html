@@ -6,7 +6,7 @@
 <title>QR ZAP - Painel</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script defer src="app.js?v=63"></script>
+<script defer src="app.js?v=64"></script>
 </head>
 <body>
 <header class="topo">
@@ -68,7 +68,7 @@
 
     <section id="certificadoSection" style="display:none;">
         <h2>📄 Certificado Oficial QR ZAP</h2>
-        <canvas id="certificadoCanvas"></canvas>
+        <canvas id="certificadoCanvas" style="max-width:100%; width:100%; height:auto; display:block; margin:10px auto; border-radius:12px;"></canvas>
         <div class="acoesQR">
             <button id="baixarCertificado">📄 Baixar Certificado</button>
         </div>
@@ -76,7 +76,7 @@
 
     <section id="certificadoOficialSection" style="display:none;">
         <h2>📜 Certificado Oficial de Adesão QR ZAP</h2>
-        <canvas id="certificadoOficialCanvas"></canvas>
+        <canvas id="certificadoOficialCanvas" style="max-width:100%; width:100%; height:auto; display:block; margin:10px auto; border-radius:12px;"></canvas>
         <div class="acoesQR">
             <button id="baixarCertificadoOficial" type="button">📄 Baixar Certificado Oficial</button>
         </div>
