@@ -191,14 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = "#fff";
       ctx.fillRect(xEmpresa - 600, 408, 1200, 54);
 
-      // linha separadora
-      const yLinha = 452;
-      ctx.strokeStyle = "#0a2a4a";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(xEmpresa - 350, yLinha);
-      ctx.lineTo(xEmpresa + 350, yLinha);
-      ctx.stroke();
+      // linha separadora removida
 
       // nome da empresa
       const yEmpresa = 438;
@@ -215,9 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // data e CNPJ
       const xData = 404;
-      const yData = 738;
+      const yData = 705;
       const xCnpj = 817;
-      const yCnpj = 738;
+      const yCnpj = 705;
       ctx.fillStyle = "#000";
       ctx.font = "bold 16px Arial";
       ctx.fillText(data, xData, yData);
@@ -227,10 +220,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // Caixinha "NÚMERO DO CERTIFICADO / QRZAP-2026-00007"
       // Posicionada no lado direito, alinhada com a caixinha de reavaliação
       // que já existe no design (aproximadamente x=1000, y=530)
-      const boxX = 998;
-      const boxY = 530;
-      const boxW = 270;
-      const boxH = 58;
+      const boxX = 1005;
+      const boxY = 720;
+      const boxW = 255;
+      const boxH = 52;
 
       // fundo branco pra cobrir o valor fixo do template
       ctx.fillStyle = "#ffffff";
