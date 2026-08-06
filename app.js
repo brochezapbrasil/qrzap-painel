@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
       ctx.fillStyle = "#fff";
-      ctx.fillRect(canvas.width * 0.18, canvas.height * 0.370, canvas.width * 0.64, canvas.height * 0.08);
+      ctx.fillRect(canvas.width * 0.10, canvas.height * 0.355, canvas.width * 0.80, canvas.height * 0.11);
       ctx.fillStyle = "#4b1f9c";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
