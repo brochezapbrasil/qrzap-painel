@@ -187,9 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const xEmpresa = canvas.width / 2;
 
-      // apaga faixa do placeholder de nome
+      // apaga faixa do placeholder de nome e linha acima
       ctx.fillStyle = "#fff";
-      ctx.fillRect(xEmpresa - 600, 408, 1200, 54);
+      ctx.fillRect(xEmpresa - 600, 395, 1200, 70);
 
       // linha separadora removida
 
@@ -208,37 +208,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // data e CNPJ
       const xData = 404;
-      const yData = 705;
+      const yData = 668;
       const xCnpj = 817;
-      const yCnpj = 705;
+      const yCnpj = 668;
       ctx.fillStyle = "#000";
       ctx.font = "bold 16px Arial";
       ctx.fillText(data, xData, yData);
       ctx.fillText(cnpj, xCnpj, yCnpj);
 
-      // ── NÚMERO SERIAL ──────────────────────────────────────────────────
-      // Caixinha "NÚMERO DO CERTIFICADO / QRZAP-2026-00007"
-      // Posicionada no lado direito, alinhada com a caixinha de reavaliação
-      // que já existe no design (aproximadamente x=1000, y=530)
-      const boxX = 1005;
-      const boxY = 720;
-      const boxW = 255;
-      const boxH = 52;
-
-      // fundo branco pra cobrir o valor fixo do template
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(boxX, boxY, boxW, boxH);
-
-      // label pequeno
+      // ── NÚMERO SERIAL — imprime junto ao CT- do template ──────────────
+      // A caixinha "CÓDIGO DO DOCUMENTO / CT-" já existe na arte
+      // Só precisamos escrever o número após o CT-
       ctx.fillStyle = "#1A2340";
       ctx.textAlign = "left";
-      ctx.font = "bold 11px Arial";
-      ctx.fillText("NÚMERO DO CERTIFICADO", boxX + 8, boxY + 18);
-
-      // serial em destaque
-      ctx.fillStyle = "#1A2340";
       ctx.font = "bold 16px Arial";
-      ctx.fillText(serial, boxX + 8, boxY + 44);
+      ctx.fillText(serial, 1048, 855);
       // ──────────────────────────────────────────────────────────────────
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
