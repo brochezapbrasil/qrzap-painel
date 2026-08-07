@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.drawImage(base, 0, 0);
       const qrSize = canvas.width * 0.38;
       const qrX = (canvas.width - qrSize) / 2;
-      const qrY = (canvas.height - qrSize) / 2 - canvas.height * 0.01;
+      const qrY = (canvas.height - qrSize) / 2 - canvas.height * 0.06;
       ctx.fillStyle = "#fff";
       ctx.fillRect(qrX, qrY, qrSize, qrSize);
       const qrDataUrl = getQrDataUrl();
