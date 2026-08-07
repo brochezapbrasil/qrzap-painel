@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // ── CÓDIGO DO DOCUMENTO — apaga CT- e escreve CT-001 ──────────────
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(1148, 800, 200, 35);
+      ctx.fillRect(1148, 808, 120, 28);
       ctx.fillStyle = "#1A2340";
       ctx.textAlign = "left";
       ctx.font = "bold 20px Arial";
