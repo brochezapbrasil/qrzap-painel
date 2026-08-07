@@ -208,9 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // data e CNPJ
       const xData = 404;
-      const yData = 688;
+      const yData = 715;
       const xCnpj = 817;
-      const yCnpj = 688;
+      const yCnpj = 715;
       ctx.fillStyle = "#000";
       ctx.font = "bold 16px Arial";
       ctx.fillText(data, xData, yData);
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = "#1A2340";
       ctx.textAlign = "left";
       ctx.font = "bold 16px Arial";
-      ctx.fillText(serial, 1158, 858);
+      ctx.fillText(serial, 1163, 858);
       // ──────────────────────────────────────────────────────────────────
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
