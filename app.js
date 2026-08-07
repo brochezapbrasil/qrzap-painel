@@ -216,13 +216,11 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillText(data, xData, yData);
       ctx.fillText(cnpj, xCnpj, yCnpj);
 
-      // ── CÓDIGO DO DOCUMENTO — apaga CT- e escreve CT-001 ──────────────
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(1148, 808, 120, 28);
+      // ── CÓDIGO DO DOCUMENTO — escreve 001 após o CT- da arte ──────────
       ctx.fillStyle = "#1A2340";
       ctx.textAlign = "left";
       ctx.font = "bold 20px Arial";
-      ctx.fillText("CT-001", 1148, 825);
+      ctx.fillText("001", 1193, 825);
       // ──────────────────────────────────────────────────────────────────
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
