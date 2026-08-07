@@ -289,8 +289,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!qrData) return;
       const qr = new Image();
       qr.onload = () => {
-        const quadroX = canvas.width * 0.632;
-        const quadroY = canvas.height * 0.078;
+        const quadroX = canvas.width * 0.645;
+        const quadroY = canvas.height * 0.060;
         const quadroW = canvas.width * 0.324;
         const quadroH = canvas.height * 0.652;
         const tamanho = Math.min(quadroW, quadroH) * 0.92;
