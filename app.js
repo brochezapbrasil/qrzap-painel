@@ -216,13 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillText(data, xData, yData);
       ctx.fillText(cnpj, xCnpj, yCnpj);
 
-      // ── NÚMERO SERIAL — imprime junto ao CT- do template ──────────────
-      // A caixinha "CÓDIGO DO DOCUMENTO / CT-" já existe na arte
-      // Só precisamos escrever o número após o CT-
+      // ── CÓDIGO DO DOCUMENTO — apaga CT- e escreve CT-001 ──────────────
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(1148, 800, 200, 35);
       ctx.fillStyle = "#1A2340";
       ctx.textAlign = "left";
-      ctx.font = "bold 16px Arial";
-      ctx.fillText(serial, 1163, 858);
+      ctx.font = "bold 20px Arial";
+      ctx.fillText("CT-001", 1148, 825);
       // ──────────────────────────────────────────────────────────────────
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
