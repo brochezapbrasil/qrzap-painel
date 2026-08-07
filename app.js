@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // ── NÚMERO SERIAL — abaixo do CT-001 ──────────────────────────────
       ctx.font = "bold 16px Arial";
-      ctx.fillText(serial, 1163, 855);
+      ctx.fillText(serial, 1153, 855);
       // ──────────────────────────────────────────────────────────────────
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
