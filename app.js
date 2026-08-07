@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = "#1A2340";
       ctx.textAlign = "left";
       ctx.font = "bold 16px Arial";
-      ctx.fillText(serial, 1048, 840);
+      ctx.fillText(serial, 878, 755);
       // ──────────────────────────────────────────────────────────────────
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
