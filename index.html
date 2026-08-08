@@ -9,6 +9,48 @@
 <script defer src="app.js?v=139"></script>
 </head>
 <body>
+<script>
+  // Verificação de acesso — só permite entrada com ?pago=1
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('pago') !== '1') {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.innerHTML = `
+          <div style="
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            background:#f0fdf4;
+            font-family:Arial,sans-serif;
+            text-align:center;
+            padding:32px 20px;
+          ">
+            <div style="background:#fff;border:2px solid #22c55e;border-radius:20px;padding:40px 28px;max-width:480px;width:100%">
+              <div style="font-size:48px;margin-bottom:16px">🔒</div>
+              <h2 style="color:#081B33;font-size:22px;margin:0 0 12px">Acesso exclusivo para assinantes</h2>
+              <p style="color:#444;font-size:15px;margin:0 0 24px">Este painel é exclusivo para empresas que aderiram ao Programa QR ZAP.</p>
+              <a href="https://brochezapbrasil.github.io/" style="
+                display:inline-block;
+                background:#22c55e;
+                color:#000;
+                font-weight:900;
+                font-size:16px;
+                padding:14px 28px;
+                border-radius:30px;
+                text-decoration:none;
+                margin-bottom:12px;
+              ">💳 Assinar agora — R$100/mês</a>
+              <br>
+              <a href="https://wa.me/5518981950799" style="font-size:13px;color:#3B1B6B;font-weight:700">💬 Tirar dúvidas no WhatsApp</a>
+            </div>
+          </div>
+        `;
+      });
+    }
+  })();
+</script>
 <header class="topo">
     <h1>QR ZAP</h1>
     <p>Painel Administrativo</p>
