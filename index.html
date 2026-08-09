@@ -6,7 +6,7 @@
 <title>QR ZAP - Painel</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script defer src="app.js?v=142"></script>
+<script defer src="app.js?v=143"></script>
 </head>
 <body>
 <header class="topo">
@@ -49,16 +49,6 @@
     <label>Mensagem de acolhimento</label>
     <textarea id="mensagem">Olá! Estou neste estabelecimento e prefiro me comunicar por mensagem. Por favor, responda por este chat para que possamos conversar. Obrigado(a)!</textarea>
 
-    <!-- Campo do token GitHub para numeração automática dos certificados -->
-    <details style="margin:12px 0;">
-      <summary style="cursor:pointer;font-size:13px;color:#555;user-select:none;">🔑 Token GitHub (numeração automática)</summary>
-      <div style="margin-top:8px;">
-        <input id="githubToken" type="password"
-               placeholder="Cole aqui o token ghp_..."
-               style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;font-size:13px;box-sizing:border-box;">
-        <p style="font-size:11px;color:#888;margin:4px 0 0;">O token é usado apenas para atualizar o contador de certificados. Não é salvo nem enviado a nenhum servidor externo.</p>
-      </div>
-    </details>
 
     <button id="gerarKit">Gerar Kit</button>
   </section>
