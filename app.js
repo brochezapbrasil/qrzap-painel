@@ -2,113 +2,69 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("gerarKit");
   if (!btn) return;
 
-  // ─── CONFIGURAÇÃO DO CONTADOR (GitHub) ───────────────────────────────────
-  // Repositório onde fica o counter.json
-  const REPO_OWNER = "brochezapbrasil";
-  const REPO_NAME  = "qrzap-painel";
-  const COUNTER_FILE = "counter.json";   // arquivo na raiz do repositório
-  const ANO = new Date().getFullYear();  // ano atual para o serial
+  // ─── CONFIGURAÇÃO DO CONTADOR (JSONBin.io) ────────────────────────────────
+  const JSONBIN_ID  = "6a78cab0f5f4af5e29ff6ad2";
+  const JSONBIN_KEY = "$2a$10$vTm6uZ/N4TIQ0zf9twTwqOyCGm2slLg21OJnJVaVYB6p6xEEF1uSu";
+  const ANO = new Date().getFullYear();
 
-  // Lê o token que a Fran cola no campo da página
-  function getToken() {
-    const campo = document.getElementById("githubToken");
-    return campo ? campo.value.trim() : "";
-  }
-
-  // Busca o counter.json no GitHub e retorna { contador, sha }
   async function lerContador() {
-    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${COUNTER_FILE}`;
-    const token = getToken();
-    const headers = { "Accept": "application/vnd.github+json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-
-    const resp = await fetch(url, { headers });
-    if (!resp.ok) {
-      if (resp.status === 404) {
-        // arquivo ainda não existe — começa do zero
-        return { contador: 0, sha: null };
-      }
-      throw new Error("Erro ao ler contador: " + resp.status);
-    }
+    const resp = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+      headers: { "X-Master-Key": JSONBIN_KEY }
+    });
+    if (!resp.ok) throw new Error("Erro ao ler contador: " + resp.status);
     const json = await resp.json();
-    const conteudo = JSON.parse(atob(json.content.replace(/\n/g, "")));
-    return { contador: conteudo.contador || 0, sha: json.sha };
+    return json.record.contador || 0;
   }
 
-  // Salva o novo valor de volta no counter.json
-  async function salvarContador(novoValor, sha) {
-    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${COUNTER_FILE}`;
-    const token = getToken();
-    if (!token) throw new Error("Token GitHub não informado.");
-
-    const conteudo = btoa(JSON.stringify({ contador: novoValor }));
-    const body = {
-      message: `cert #${novoValor} emitido`,
-      content: conteudo,
-    };
-    if (sha) body.sha = sha; // obrigatório pra atualizar arquivo existente
-
-    const resp = await fetch(url, {
+  async function salvarContador(novoValor) {
+    const resp = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
       method: "PUT",
       headers: {
-        "Authorization": `Bearer ${token}`,
-        "Accept": "application/vnd.github+json",
         "Content-Type": "application/json",
+        "X-Master-Key": JSONBIN_KEY
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ contador: novoValor })
     });
-    if (!resp.ok) {
-      const err = await resp.json();
-      throw new Error("Erro ao salvar contador: " + (err.message || resp.status));
-    }
+    if (!resp.ok) throw new Error("Erro ao salvar contador: " + resp.status);
   }
 
-  // Monta o número serial formatado: QRZAP-2026-00007
   function formatarSerial(n) {
     return `QRZAP-${ANO}-${String(n).padStart(5, "0")}`;
   }
   // ─────────────────────────────────────────────────────────────────────────
 
   btn.addEventListener("click", async () => {
-    const empresa    = document.getElementById("empresa")?.value.trim() || "";
-    const cnpj       = document.getElementById("cnpj")?.value.trim() || "";
-    const dataRaw    = document.getElementById("dataAdesao")?.value || "";
+    const empresa     = document.getElementById("empresa")?.value.trim() || "";
+    const cnpj        = document.getElementById("cnpj")?.value.trim() || "";
+    const dataRaw     = document.getElementById("dataAdesao")?.value || "";
     const whatsappRaw = document.getElementById("whatsapp")?.value.trim() || "";
-    const telefone   = whatsappRaw.replace(/\D/g, "");
-    const mensagem   = document.getElementById("mensagem")?.value.trim() || "";
+    const telefone    = whatsappRaw.replace(/\D/g, "");
+    const mensagem    = document.getElementById("mensagem")?.value.trim() || "";
 
     if (!empresa || !cnpj || !dataRaw || !telefone || !mensagem) {
       alert("Preencha todos os campos.");
       return;
     }
 
-    // ── Incrementa o contador antes de gerar ──────────────────────────────
     btn.disabled = true;
     btn.textContent = "Gerando número...";
-    let serial = "QRZAP-" + ANO + "-?????"; // fallback se der erro
+    let serial = "QRZAP-" + ANO + "-?????";
 
     try {
-      const { contador, sha } = await lerContador();
-      const novo = contador + 1;
-      await salvarContador(novo, sha);
+      const atual = await lerContador();
+      const novo  = atual + 1;
+      await salvarContador(novo);
       serial = formatarSerial(novo);
     } catch (e) {
-      // Se não tiver token ou der erro, avisa mas não bloqueia a geração
       console.warn("Contador não atualizado:", e.message);
-      const semToken = !getToken();
-      if (semToken) {
-        alert("⚠️ Token GitHub não informado — certificado gerado SEM número serial automático.\n\nCole seu token no campo acima para ativar o contador.");
-      } else {
-        alert("⚠️ Não foi possível atualizar o contador:\n" + e.message + "\n\nO certificado será gerado sem número serial.");
-      }
+      alert("⚠️ Não foi possível atualizar o contador.\nO certificado será gerado sem número serial.");
     } finally {
       btn.disabled = false;
       btn.textContent = "Gerar Kit";
     }
-    // ──────────────────────────────────────────────────────────────────────
 
-    const data = dataRaw.split("-").reverse().join("/");
-    const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
+    const data  = dataRaw.split("-").reverse().join("/");
+    const link  = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
 
     const qrDiv = document.getElementById("qrCode");
     if (qrDiv) {
@@ -130,8 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => { gerarQrAzul(); gerarSelo(); gerarAdesivo(); }, 1000);
   });
-
-  // ── Funções de geração (sem alteração exceto gerarCertificadoOficial) ────
 
   function getQrDataUrl() {
     const c = document.querySelector("#qrCode canvas");
@@ -174,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = "certificado-base.png";
   }
 
-  // ── gerarCertificadoOficial — agora recebe e imprime o serial ────────────
   function gerarCertificadoOficial(empresa, cnpj, data, serial) {
     const canvas = document.getElementById("certificadoOficialCanvas");
     if (!canvas) return;
@@ -187,13 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const xEmpresa = canvas.width / 2;
 
-      // apaga faixa do placeholder de nome e linha acima
       ctx.fillStyle = "#fff";
       ctx.fillRect(xEmpresa - 600, 395, 1200, 70);
 
-      // linha separadora removida
-
-      // nome da empresa
       const yEmpresa = 438;
       ctx.fillStyle = "#0a2a4a";
       ctx.textAlign = "center";
@@ -206,7 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       ctx.fillText(empresa, xEmpresa, yEmpresa);
 
-      // data e CNPJ
       const xData = 404;
       const yData = 715;
       const xCnpj = 817;
@@ -216,16 +164,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillText(data, xData, yData);
       ctx.fillText(cnpj, xCnpj, yCnpj);
 
-      // ── CÓDIGO DO DOCUMENTO — escreve 001 após o CT- da arte ──────────
       ctx.fillStyle = "#1A2340";
       ctx.textAlign = "left";
       ctx.font = "bold 20px Arial";
       ctx.fillText("001", 1210, 835);
 
-      // ── NÚMERO SERIAL — abaixo do CT-001 ──────────────────────────────
       ctx.font = "bold 16px Arial";
       ctx.fillText(serial, 1153, 855);
-      // ──────────────────────────────────────────────────────────────────
     };
     img.src = "certificado-oficial.png?v=" + Date.now();
   }
@@ -307,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
     base.src = "adesivo-porta-base.png";
   }
 
-  // ── Botões de download (sem alteração) ───────────────────────────────────
+  // ── Botões de download ───────────────────────────────────────────────────
   document.getElementById("baixarQR").onclick = () => {
     const d = getQrDataUrl();
     if (!d) return alert("Gere o QR primeiro.");
