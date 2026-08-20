@@ -7,6 +7,68 @@ document.addEventListener("DOMContentLoaded", () => {
   const JSONBIN_KEY = "$2a$10$vTm6uZ/N4TIQ0zf9twTwqOyCGm2slLg21OJnJVaVYB6p6xEEF1uSu";
   const ANO = new Date().getFullYear();
 
+  // ─── CONTROLE DE DOWNLOADS (localStorage) ────────────────────────────────
+  const ITENS = ["qr","certificado","certificadoOficial","selo","qrAzul","adesivo"];
+  const CHAVE = "qrzap_kit_concluido";
+
+  function marcarDownload(item) {
+    const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
+    dados[item] = true;
+    localStorage.setItem(CHAVE, JSON.stringify(dados));
+    verificarConcluido();
+  }
+
+  function verificarConcluido() {
+    const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
+    const todos = ITENS.every(i => dados[i]);
+    if (todos) {
+      bloquearPainel();
+    }
+  }
+
+  function bloquearPainel() {
+    btn.disabled = true;
+    btn.textContent = "🔒 Kit já gerado";
+    btn.style.backgroundColor = "#999";
+    btn.style.cursor = "not-allowed";
+
+    // Travar todos os botões de download
+    ["baixarQR","baixarCertificado","baixarCertificadoOficial",
+     "baixarSelo","baixarQrAzul","baixarAdesivo"].forEach(id => {
+      const b = document.getElementById(id);
+      if (b) {
+        b.disabled = true;
+        b.style.opacity = "0.4";
+        b.style.cursor = "not-allowed";
+      }
+    });
+
+    // Mostrar aviso
+    const aviso = document.createElement("div");
+    aviso.style.cssText = `
+      background:#fff3cd;
+      border:2px solid #ffc107;
+      border-radius:12px;
+      padding:20px;
+      margin:20px 0;
+      text-align:center;
+      font-size:15px;
+      color:#333;
+    `;
+    aviso.innerHTML = `
+      <p>🔒 <strong>Seu Kit Digital já foi gerado e baixado.</strong></p>
+      <p>Para gerar um novo kit, realize uma nova assinatura em:</p>
+      <p><a href="https://qrzap-falecomigo.com.br" style="color:#1A2340;font-weight:bold;">qrzap-falecomigo.com.br</a></p>
+      <p style="font-size:13px;color:#666;margin-top:10px;">Dúvidas? Entre em contato: <strong>contato@qrzap-falecomigo.com.br</strong></p>
+    `;
+    btn.parentNode.insertBefore(aviso, btn.nextSibling);
+  }
+
+  // Verificar ao carregar a página
+  verificarConcluido();
+
+  // ─────────────────────────────────────────────────────────────────────────
+
   async function lerContador() {
     const resp = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
       headers: { "X-Master-Key": JSONBIN_KEY }
@@ -31,9 +93,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function formatarSerial(n) {
     return `QRZAP-${ANO}-${String(n).padStart(5, "0")}`;
   }
-  // ─────────────────────────────────────────────────────────────────────────
 
   btn.addEventListener("click", async () => {
+    // Verificar se kit já foi concluído
+    const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
+    const todos = ITENS.every(i => dados[i]);
+    if (todos) {
+      alert("🔒 Seu Kit Digital já foi gerado.\nPara novo kit acesse: qrzap-falecomigo.com.br");
+      return;
+    }
+
     const empresa     = document.getElementById("empresa")?.value.trim() || "";
     const cnpj        = document.getElementById("cnpj")?.value.trim() || "";
     const dataRaw     = document.getElementById("dataAdesao")?.value || "";
@@ -95,11 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
-  function baixar(nome, dataUrl) {
+  function baixar(nome, dataUrl, itemChave) {
     const a = document.createElement("a");
     a.download = nome;
     a.href = dataUrl;
     a.click();
+    if (itemChave) marcarDownload(itemChave);
   }
 
   function gerarCertificado(empresa) {
@@ -139,7 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.drawImage(img, 0, 0);
 
       const xEmpresa = canvas.width / 2;
-
       ctx.fillStyle = "#fff";
       ctx.fillRect(xEmpresa - 600, 395, 1200, 70);
 
@@ -256,21 +325,21 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("baixarQR").onclick = () => {
     const d = getQrDataUrl();
     if (!d) return alert("Gere o QR primeiro.");
-    baixar("QR-ZAP.png", d);
+    baixar("QR-ZAP.png", d, "qr");
   };
   document.getElementById("baixarCertificado").onclick = () => {
-    baixar("CERTIFICADO.png", document.getElementById("certificadoCanvas").toDataURL("image/png"));
+    baixar("CERTIFICADO.png", document.getElementById("certificadoCanvas").toDataURL("image/png"), "certificado");
   };
   document.getElementById("baixarSelo").onclick = () => {
-    baixar("SELO-QRZAP.png", document.getElementById("seloCanvas").toDataURL("image/png"));
+    baixar("SELO-QRZAP.png", document.getElementById("seloCanvas").toDataURL("image/png"), "selo");
   };
   document.getElementById("baixarQrAzul").onclick = () => {
-    baixar("QR-AZUL.png", document.getElementById("qrAzulCanvas").toDataURL("image/png"));
+    baixar("QR-AZUL.png", document.getElementById("qrAzulCanvas").toDataURL("image/png"), "qrAzul");
   };
   document.getElementById("baixarAdesivo").onclick = () => {
-    baixar("ADESIVO-PORTA.png", document.getElementById("adesivoCanvas").toDataURL("image/png"));
+    baixar("ADESIVO-PORTA.png", document.getElementById("adesivoCanvas").toDataURL("image/png"), "adesivo");
   };
   document.getElementById("baixarCertificadoOficial").onclick = () => {
-    baixar("CERTIFICADO-ADESAO-QRZAP.png", document.getElementById("certificadoOficialCanvas").toDataURL("image/png"));
+    baixar("CERTIFICADO-ADESAO-QRZAP.png", document.getElementById("certificadoOficialCanvas").toDataURL("image/png"), "certificadoOficial");
   };
 });
