@@ -336,10 +336,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!qrData) return;
       const qr = new Image();
       qr.onload = () => {
-        const tamanho = canvas.width * 0.45;
+        // Tamanho do QR (fração da largura) e quanto sobe (fração da altura), por idioma
+        const L = idioma();
+        const C = L === "pt" ? { t: 0.45, sobe: 0.055 }
+                : L === "es" ? { t: 0.45, sobe: 0.03 }
+                :              { t: 0.40, sobe: 0.045 };   // EN: menor e um pouco mais alto
+        const tamanho = canvas.width * C.t;
         const x = (canvas.width - tamanho) / 2;
-        const ajusteY = idioma() === "pt" ? 0.055 : 0.03;   // EN/ES: QR um pouco mais baixo
-        const y = (canvas.height - tamanho) / 2 - canvas.height * ajusteY;
+        const y = (canvas.height - tamanho) / 2 - canvas.height * C.sobe;
         ctx.fillStyle = "#fff";
         ctx.fillRect(x - 6, y - 6, tamanho + 12, tamanho + 12);
         ctx.drawImage(qr, x, y, tamanho, tamanho);
@@ -393,9 +397,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const quadroY = canvas.height * M.y;
         const quadroW = canvas.width * M.w;
         const quadroH = canvas.height * M.h;
-        const tamanho = Math.min(quadroW, quadroH) * 0.92;
+        // Ajuste extra só para EN: QR maior (escala) e mais alto (sobe)
+        const E = idioma() === "en" ? { escala: 1.3, sobe: 0.02 } : { escala: 1, sobe: 0 };
+        const tamanho = Math.min(quadroW, quadroH) * 0.92 * E.escala;
         const x = quadroX + (quadroW - tamanho) / 2;
-        const y = quadroY + (quadroH - tamanho) / 2;
+        const y = quadroY + (quadroH - tamanho) / 2 - canvas.height * E.sobe;
         ctx.fillStyle = "#fff";
         ctx.fillRect(x, y, tamanho, tamanho);
         ctx.drawImage(qr, x, y, tamanho, tamanho);
