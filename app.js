@@ -2,6 +2,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("gerarKit");
   if (!btn) return;
 
+  // ─── IDIOMAS (i18n-painel.js) ─────────────────────────────────────────────
+  const I18N = window.QRZAP_I18N;
+  const T = (k) => (I18N ? I18N.t(k) : k);
+  const idioma = () => (I18N ? I18N.lang() : "pt");
+
+  let estado = "normal";   // "normal" | "busy" | "locked"
+  let avisoEl = null;
+  let msgEditada = false;
+
+  function atualizarBtn() {
+    if (estado === "locked") btn.textContent = T("btnBloq");
+    else if (estado === "busy") btn.textContent = T("btnGerando");
+    else btn.textContent = T("btnGerar");
+  }
+
+  function renderAviso() {
+    if (!avisoEl) return;
+    avisoEl.innerHTML = `
+      <p>🔒 <strong>${T("avisoT1")}</strong></p>
+      <p>${T("avisoT2")}</p>
+      <p><a href="https://qrzap-falecomigo.com.br" style="color:#1A2340;font-weight:bold;">qrzap-falecomigo.com.br</a></p>
+      <p style="font-size:13px;color:#666;margin-top:10px;">${T("avisoT3")} <strong>contato@qrzap-falecomigo.com.br</strong></p>
+    `;
+  }
+
+  const msgBox = document.getElementById("mensagem");
+  if (msgBox) msgBox.addEventListener("input", () => { msgEditada = true; });
+  function aplicarMensagemPadrao() {
+    if (msgBox && !msgEditada) msgBox.value = T("msgPadrao");
+  }
+
   // ─── CONFIGURAÇÃO DO CONTADOR (JSONBin.io) ────────────────────────────────
   const JSONBIN_ID  = "6a78cab0f5f4af5e29ff6ad2";
   const JSONBIN_KEY = "$2a$10$vTm6uZ/N4TIQ0zf9twTwqOyCGm2slLg21OJnJVaVYB6p6xEEF1uSu";
@@ -27,8 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function bloquearPainel() {
+    estado = "locked";
     btn.disabled = true;
-    btn.textContent = "🔒 Kit já gerado";
+    atualizarBtn();
     btn.style.backgroundColor = "#999";
     btn.style.cursor = "not-allowed";
 
@@ -44,25 +76,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Mostrar aviso
-    const aviso = document.createElement("div");
-    aviso.style.cssText = `
-      background:#fff3cd;
-      border:2px solid #ffc107;
-      border-radius:12px;
-      padding:20px;
-      margin:20px 0;
-      text-align:center;
-      font-size:15px;
-      color:#333;
-    `;
-    aviso.innerHTML = `
-      <p>🔒 <strong>Seu Kit Digital já foi gerado e baixado.</strong></p>
-      <p>Para gerar um novo kit, realize uma nova assinatura em:</p>
-      <p><a href="https://qrzap-falecomigo.com.br" style="color:#1A2340;font-weight:bold;">qrzap-falecomigo.com.br</a></p>
-      <p style="font-size:13px;color:#666;margin-top:10px;">Dúvidas? Entre em contato: <strong>contato@qrzap-falecomigo.com.br</strong></p>
-    `;
-    btn.parentNode.insertBefore(aviso, btn.nextSibling);
+    if (!avisoEl) {
+      avisoEl = document.createElement("div");
+      avisoEl.style.cssText = `
+        background:#fff3cd;
+        border:2px solid #ffc107;
+        border-radius:12px;
+        padding:20px;
+        margin:20px 0;
+        text-align:center;
+        font-size:15px;
+        color:#333;
+      `;
+      btn.parentNode.insertBefore(avisoEl, btn.nextSibling);
+    }
+    renderAviso();
   }
+
+  // Quando a pessoa troca de idioma, atualiza os textos montados pelo código
+  function atualizarIdioma() {
+    atualizarBtn();
+    renderAviso();
+    aplicarMensagemPadrao();
+  }
+  if (I18N) I18N.onChange(atualizarIdioma);
+  atualizarIdioma();
 
   // Verificar ao carregar a página
   verificarConcluido();
@@ -99,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     const todos = ITENS.every(i => dados[i]);
     if (todos) {
-      alert("🔒 Seu Kit Digital já foi gerado.\nPara novo kit acesse: qrzap-falecomigo.com.br");
+      alert(T("alertBloq"));
       return;
     }
 
@@ -111,12 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const mensagem    = document.getElementById("mensagem")?.value.trim() || "";
 
     if (!empresa || !cnpj || !dataRaw || !telefone || !mensagem) {
-      alert("Preencha todos os campos.");
+      alert(T("alertCampos"));
       return;
     }
 
     btn.disabled = true;
-    btn.textContent = "Gerando número...";
+    estado = "busy";
+    atualizarBtn();
     let serial = "QRZAP-" + ANO + "-?????";
 
     try {
@@ -126,10 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
       serial = formatarSerial(novo);
     } catch (e) {
       console.warn("Contador não atualizado:", e.message);
-      alert("⚠️ Não foi possível atualizar o contador.\nO certificado será gerado sem número serial.");
+      alert(T("alertContador"));
     } finally {
       btn.disabled = false;
-      btn.textContent = "Gerar Kit";
+      estado = "normal";
+      atualizarBtn();
     }
 
     const data  = dataRaw.split("-").reverse().join("/");
@@ -172,6 +212,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (itemChave) marcarDownload(itemChave);
   }
 
+  // Carrega a imagem-base no idioma escolhido. Se existir um arquivo
+  // com sufixo (ex.: certificado-oficial-en.png), usa ele; se não existir,
+  // usa o arquivo em português. Os arquivos em outros idiomas precisam ter
+  // exatamente o mesmo tamanho e layout do original.
+  function setBase(img, nome, query) {
+    query = query || "";
+    const L = idioma();
+    if (L === "pt") { img.src = nome + ".png" + query; return; }
+    img.onerror = () => { img.onerror = null; img.src = nome + ".png" + query; };
+    img.src = nome + "-" + L + ".png" + query;
+  }
+
   function gerarCertificado(empresa) {
     const canvas = document.getElementById("certificadoCanvas");
     if (!canvas) return;
@@ -195,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
     };
-    img.src = "certificado-base.png";
+    setBase(img, "certificado-base");
   }
 
   function gerarCertificadoOficial(empresa, cnpj, data, serial) {
@@ -241,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.font = "bold 16px Arial";
       ctx.fillText(serial, 1153, 855);
     };
-    img.src = "certificado-oficial.png?v=" + Date.now();
+    setBase(img, "certificado-oficial", "?v=" + Date.now());
   }
 
   function gerarSelo() {
@@ -266,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       qr.src = qrData;
     };
-    base.src = "selo-base-v2.png";
+    setBase(base, "selo-base-v2");
   }
 
   function gerarQrAzul() {
@@ -289,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
       qrImg.onload = () => { ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize); };
       qrImg.src = qrDataUrl;
     };
-    base.src = "qr-azul-base.png";
+    setBase(base, "qr-azul-base");
   }
 
   function gerarAdesivo() {
@@ -318,13 +370,13 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       qr.src = qrData;
     };
-    base.src = "adesivo-porta-base.png";
+    setBase(base, "adesivo-porta-base");
   }
 
   // ── Botões de download ───────────────────────────────────────────────────
   document.getElementById("baixarQR").onclick = () => {
     const d = getQrDataUrl();
-    if (!d) return alert("Gere o QR primeiro.");
+    if (!d) return alert(T("alertGereQR"));
     baixar("QR-ZAP.png", d, "qr");
   };
   document.getElementById("baixarCertificado").onclick = () => {
