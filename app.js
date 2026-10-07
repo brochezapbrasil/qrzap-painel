@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let estado = "normal";   // "normal" | "busy" | "locked"
   let avisoEl = null;
   let msgEditada = false;
+  let ultimoKit = null;   // dados do último kit gerado (para regerar ao trocar idioma)
 
   function atualizarBtn() {
     if (estado === "locked") btn.textContent = T("btnBloq");
@@ -98,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     atualizarBtn();
     renderAviso();
     aplicarMensagemPadrao();
+    regerarImagens();   // recarrega as imagens-base no novo idioma
   }
   if (I18N) I18N.onChange(atualizarIdioma);
   atualizarIdioma();
@@ -184,6 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("empresaPreview").textContent = empresa;
     document.getElementById("telefonePreview").textContent = "WhatsApp: +" + telefone;
 
+    ultimoKit = { empresa, cnpj, data, serial };
+
     gerarCertificado(empresa);
     gerarCertificadoOficial(empresa, cnpj, data, serial);
 
@@ -212,16 +216,32 @@ document.addEventListener("DOMContentLoaded", () => {
     if (itemChave) marcarDownload(itemChave);
   }
 
-  // Carrega a imagem-base no idioma escolhido. Se existir um arquivo
-  // com sufixo (ex.: certificado-oficial-en.png), usa ele; se não existir,
-  // usa o arquivo em português. Os arquivos em outros idiomas precisam ter
-  // exatamente o mesmo tamanho e layout do original.
+  // Nomes dos arquivos-base por idioma (quando diferem do padrão "nome-idioma.png").
+  // Se o arquivo do idioma não existir, cai para o português.
+  const BASES = {
+    "selo-base-v2":       { en: "selo.qr-en.png",       es: "selo.qr-es.png" },
+    "qr-azul-base":       { en: "plaquinha.qr-en.png",  es: "plaquinha.qr-es.png" },
+    "adesivo-porta-base": { en: "adesivo.porta-en.png", es: "adesivo.porta-es.png" }
+  };
+
   function setBase(img, nome, query) {
     query = query || "";
     const L = idioma();
     if (L === "pt") { img.src = nome + ".png" + query; return; }
+    const arquivo = (BASES[nome] && BASES[nome][L]) || (nome + "-" + L + ".png");
     img.onerror = () => { img.onerror = null; img.src = nome + ".png" + query; };
-    img.src = nome + "-" + L + ".png" + query;
+    img.src = arquivo + query;
+  }
+
+  // Redesenha tudo que já foi gerado, usando as imagens do idioma atual
+  function regerarImagens() {
+    if (!ultimoKit) return;            // ainda não gerou o kit
+    const k = ultimoKit;
+    gerarCertificado(k.empresa);
+    gerarCertificadoOficial(k.empresa, k.cnpj, k.data, k.serial);
+    gerarQrAzul();
+    gerarSelo();
+    gerarAdesivo();
   }
 
   function gerarCertificado(empresa) {
