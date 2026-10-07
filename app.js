@@ -229,8 +229,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const L = idioma();
     if (L === "pt") { img.src = nome + ".png" + query; return; }
     const arquivo = (BASES[nome] && BASES[nome][L]) || (nome + "-" + L + ".png");
-    img.onerror = () => { img.onerror = null; img.src = nome + ".png" + query; };
-    img.src = arquivo + query;
+    // ?v=... evita que o navegador/GitHub Pages sirva imagem em cache
+    const q = query || ("?v=" + Date.now());
+    img.onerror = () => {
+      img.onerror = null;
+      console.warn("[QR ZAP] imagem não encontrada:", arquivo, "→ usando português");
+      img.src = nome + ".png" + query;
+    };
+    console.log("[QR ZAP] carregando", arquivo, "(" + L + ")");
+    img.src = arquivo + q;
   }
 
   // Redesenha tudo que já foi gerado, usando as imagens do idioma atual
