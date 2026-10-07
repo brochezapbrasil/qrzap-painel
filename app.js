@@ -338,7 +338,8 @@ document.addEventListener("DOMContentLoaded", () => {
       qr.onload = () => {
         const tamanho = canvas.width * 0.45;
         const x = (canvas.width - tamanho) / 2;
-        const y = (canvas.height - tamanho) / 2 - canvas.height * 0.055;
+        const ajusteY = idioma() === "pt" ? 0.055 : 0.03;   // EN/ES: QR um pouco mais baixo
+        const y = (canvas.height - tamanho) / 2 - canvas.height * ajusteY;
         ctx.fillStyle = "#fff";
         ctx.fillRect(x - 6, y - 6, tamanho + 12, tamanho + 12);
         ctx.drawImage(qr, x, y, tamanho, tamanho);
@@ -384,10 +385,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!qrData) return;
       const qr = new Image();
       qr.onload = () => {
-        const quadroX = canvas.width * 0.645;
-        const quadroY = canvas.height * 0.060;
-        const quadroW = canvas.width * 0.324;
-        const quadroH = canvas.height * 0.652;
+        // Posição da moldura tracejada do QR (fração da largura/altura da imagem)
+        const M = idioma() === "pt"
+          ? { x: 0.645, y: 0.060, w: 0.324, h: 0.652 }
+          : { x: 0.692, y: 0.157, w: 0.278, h: 0.396 };   // EN/ES
+        const quadroX = canvas.width * M.x;
+        const quadroY = canvas.height * M.y;
+        const quadroW = canvas.width * M.w;
+        const quadroH = canvas.height * M.h;
         const tamanho = Math.min(quadroW, quadroH) * 0.92;
         const x = quadroX + (quadroW - tamanho) / 2;
         const y = quadroY + (quadroH - tamanho) / 2;
