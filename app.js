@@ -292,6 +292,52 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
 
+      // ── EN / ES: posições medidas na imagem 1824x1200 (em frações, valem p/ qualquer tamanho)
+      if (idioma() !== "pt") {
+        const W = canvas.width, H = canvas.height;
+        const k = W / 1824;                       // escala das fontes
+        const azul = "#0a2a4a";
+
+        // Nome da empresa: sobre a linha (linha em y≈477), sem encostar no título
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(W * 0.15, H * 0.350, W * 0.70, H * 0.040);   // y 420–468
+        ctx.fillStyle = azul;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "alphabetic";
+        let tam = 46 * k;
+        ctx.font = `bold ${tam}px Arial`;
+        while (ctx.measureText(empresa).width > W * 0.62 && tam > 22 * k) {
+          tam -= 1;
+          ctx.font = `bold ${tam}px Arial`;
+        }
+        ctx.fillText(empresa, W * 0.5, H * 0.388);                // baseline y≈466
+
+        // Data e CNPJ: sobre as linhas "Fecha de adhesión" / "ID de empresa" (linhas em y≈853)
+        ctx.fillStyle = "#000";
+        ctx.font = `bold ${26 * k}px Arial`;
+        ctx.fillText(data, W * 0.265, H * 0.7025);                // centro da linha da data
+        ctx.font = `bold ${24 * k}px Arial`;
+        ctx.fillText(cnpj, W * 0.55, H * 0.7025);                 // à direita do ícone do prédio
+
+        // Código do documento: continua o "CT-" do quadro
+        ctx.fillStyle = "#1A2340";
+        ctx.textAlign = "left";
+        ctx.font = `bold ${28 * k}px Arial`;
+        const x001 = W * 0.7752;                                  // logo após "CT-"
+        const yCod = H * 0.821;
+        ctx.fillText("001", x001, yCod);
+        const larg001 = ctx.measureText("001").width;
+        let tamS = 15 * k;
+        ctx.font = `bold ${tamS}px Arial`;
+        const xS = x001 + larg001 + 12 * k;
+        while (xS + ctx.measureText(serial).width > W * 0.895 && tamS > 9 * k) {
+          tamS -= 0.5;
+          ctx.font = `bold ${tamS}px Arial`;
+        }
+        ctx.fillText(serial, xS, yCod);
+        return;
+      }
+
       const xEmpresa = canvas.width / 2;
       ctx.fillStyle = "#fff";
       ctx.fillRect(xEmpresa - 600, 395, 1200, 70);
