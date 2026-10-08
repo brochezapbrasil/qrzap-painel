@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const quadroH = canvas.height * M.h;
         // Ajuste extra só para EN: QR maior (escala) e mais alto (sobe)
         const Li = idioma();
-        const E = Li === "en" ? { escala: 0.91, sobe: 0 }     // EN: centralizado, com margem branca p/ o QR ler
+        const E = Li === "en" ? { escala: 0.96, sobe: 0 }     // EN: centralizado, com margem branca p/ o QR ler
                 : Li === "es" ? { escala: 1.15, sobe: 0 }      // ES: QR maior
                 :               { escala: 1,    sobe: 0 };
         const tamanho = Math.min(quadroW, quadroH) * 0.92 * E.escala;
