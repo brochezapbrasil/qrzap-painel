@@ -219,9 +219,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Nomes dos arquivos-base por idioma (quando diferem do padrão "nome-idioma.png").
   // Se o arquivo do idioma não existir, cai para o português.
   const BASES = {
-    "selo-base-v2":       { en: "selo.qr-en.png",       es: "selo.qr-es.png" },
-    "qr-azul-base":       { en: "plaquinha.qr-en.png",  es: "plaquinha.qr-es.png" },
-    "adesivo-porta-base": { en: "adesivo.porta-en.png", es: "adesivo.porta-es.png" }
+    "certificado-base":    { en: "certificado.base-en.png",    es: "certificado.base-es.png" },
+    "certificado-oficial": { en: "certificado.oficial-en.png", es: "certificado.oficial-es.png" },
+    "selo-base-v2":        { en: "selo-base-en.png",           es: "selo-base-es.png" },
+    "qr-azul-base":        { en: "qr-azul-base-en.png",        es: "qr-azul-base-es.png" },
+    "adesivo-porta-base":  { en: "adesivo.porta-en.png",       es: "adesivo.porta-es.png" }
   };
 
   function setBase(img, nome, query) {
