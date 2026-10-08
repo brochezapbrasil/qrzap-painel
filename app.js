@@ -256,6 +256,28 @@ document.addEventListener("DOMContentLoaded", () => {
     gerarAdesivo();
   }
 
+  // Coloca o QR Code no quadradinho tracejado do logo (canto superior esquerdo do certificado)
+  function colocarQrNoCertificado(canvas, tentativa) {
+    tentativa = tentativa || 0;
+    const qrData = getQrDataUrl();
+    if (!qrData) {                       // o QR pode ainda estar sendo desenhado
+      if (tentativa < 6) setTimeout(() => colocarQrNoCertificado(canvas, tentativa + 1), 500);
+      return;
+    }
+    const qr = new Image();
+    qr.onload = () => {
+      const ctx = canvas.getContext("2d");
+      const W = canvas.width, H = canvas.height;
+      const cx = W * 0.1217, cy = H * 0.138;   // centro do quadradinho
+      const fundo = W * 0.076;                 // fundo branco (cobre o tracejado)
+      const lado  = W * 0.068;                 // tamanho do QR
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(cx - fundo / 2, cy - fundo / 2, fundo, fundo);
+      ctx.drawImage(qr, cx - lado / 2, cy - lado / 2, lado, lado);
+    };
+    qr.src = qrData;
+  }
+
   function gerarCertificado(empresa) {
     const canvas = document.getElementById("certificadoCanvas");
     if (!canvas) return;
@@ -278,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
       }
       ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
+      colocarQrNoCertificado(canvas);
     };
     setBase(img, "certificado-base");
   }
@@ -335,6 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ctx.font = `bold ${tamS}px Arial`;
         }
         ctx.fillText(serial, xS, yCod);
+        colocarQrNoCertificado(canvas);
         return;
       }
 
@@ -370,6 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       ctx.font = "bold 16px Arial";
       ctx.fillText(serial, 1153, 855);
+      colocarQrNoCertificado(canvas);
     };
     setBase(img, "certificado-oficial", "?v=" + Date.now());
   }
