@@ -256,21 +256,25 @@ document.addEventListener("DOMContentLoaded", () => {
     gerarAdesivo();
   }
 
-  // Coloca o QR Code no quadradinho tracejado do logo (canto superior esquerdo do certificado)
-  function colocarQrNoCertificado(canvas, tentativa) {
+  // Posição do quadradinho tracejado do logo (frações da largura/altura da imagem)
+  const POS_QR_CERT_SIMPLES = { cx: 0.3645, cy: 0.1156, fundo: 0.074, lado: 0.064 };  // certificado simples
+  const POS_QR_CERT_OFICIAL = { cx: 0.1217, cy: 0.138,  fundo: 0.076, lado: 0.068 };  // certificado oficial
+
+  // Coloca o QR Code no quadradinho tracejado do logo do certificado
+  function colocarQrNoCertificado(canvas, pos, tentativa) {
     tentativa = tentativa || 0;
     const qrData = getQrDataUrl();
     if (!qrData) {                       // o QR pode ainda estar sendo desenhado
-      if (tentativa < 6) setTimeout(() => colocarQrNoCertificado(canvas, tentativa + 1), 500);
+      if (tentativa < 6) setTimeout(() => colocarQrNoCertificado(canvas, pos, tentativa + 1), 500);
       return;
     }
     const qr = new Image();
     qr.onload = () => {
       const ctx = canvas.getContext("2d");
       const W = canvas.width, H = canvas.height;
-      const cx = W * 0.1217, cy = H * 0.138;   // centro do quadradinho
-      const fundo = W * 0.076;                 // fundo branco (cobre o tracejado)
-      const lado  = W * 0.068;                 // tamanho do QR
+      const cx = W * pos.cx, cy = H * pos.cy;
+      const fundo = W * pos.fundo;             // fundo branco (cobre o tracejado)
+      const lado  = W * pos.lado;              // tamanho do QR
       ctx.fillStyle = "#fff";
       ctx.fillRect(cx - fundo / 2, cy - fundo / 2, fundo, fundo);
       ctx.drawImage(qr, cx - lado / 2, cy - lado / 2, lado, lado);
@@ -300,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.font = `bold ${tamanhoFonte}px "Brush Script MT", cursive`;
       }
       ctx.fillText(empresa, canvas.width / 2, canvas.height * 0.43);
-      colocarQrNoCertificado(canvas);
+      colocarQrNoCertificado(canvas, POS_QR_CERT_SIMPLES);
     };
     setBase(img, "certificado-base");
   }
@@ -358,7 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ctx.font = `bold ${tamS}px Arial`;
         }
         ctx.fillText(serial, xS, yCod);
-        colocarQrNoCertificado(canvas);
+        colocarQrNoCertificado(canvas, POS_QR_CERT_OFICIAL);
         return;
       }
 
@@ -394,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       ctx.font = "bold 16px Arial";
       ctx.fillText(serial, 1153, 855);
-      colocarQrNoCertificado(canvas);
+      colocarQrNoCertificado(canvas, POS_QR_CERT_OFICIAL);
     };
     setBase(img, "certificado-oficial", "?v=" + Date.now());
   }
@@ -467,16 +471,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const qr = new Image();
       qr.onload = () => {
         // Posição da moldura tracejada do QR (fração da largura/altura da imagem)
-        const M = idioma() === "pt"
-          ? { x: 0.645, y: 0.060, w: 0.324, h: 0.652 }
-          : { x: 0.692, y: 0.157, w: 0.278, h: 0.396 };   // EN/ES
+        const Lm = idioma();
+        const M = Lm === "pt" ? { x: 0.645, y: 0.060,  w: 0.324, h: 0.652 }
+                : Lm === "en" ? { x: 0.727, y: 0.0879, w: 0.227, h: 0.482 }   // EN (medido na imagem 2432x1024)
+                :               { x: 0.692, y: 0.157,  w: 0.278, h: 0.396 };  // ES
         const quadroX = canvas.width * M.x;
         const quadroY = canvas.height * M.y;
         const quadroW = canvas.width * M.w;
         const quadroH = canvas.height * M.h;
         // Ajuste extra só para EN: QR maior (escala) e mais alto (sobe)
         const Li = idioma();
-        const E = Li === "en" ? { escala: 1.3,  sobe: 0.02 }
+        const E = Li === "en" ? { escala: 0.91, sobe: 0 }     // EN: centralizado, com margem branca p/ o QR ler
                 : Li === "es" ? { escala: 1.15, sobe: 0 }      // ES: QR maior
                 :               { escala: 1,    sobe: 0 };
         const tamanho = Math.min(quadroW, quadroH) * 0.92 * E.escala;
