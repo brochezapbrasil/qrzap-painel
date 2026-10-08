@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ─── CONTROLE DE DOWNLOADS (localStorage) ────────────────────────────────
   const ITENS = ["qr","certificado","certificadoOficial","selo","qrAzul","adesivo"];
   const CHAVE = "qrzap_kit_concluido";
+  // Modo teste: abra a página com ?teste=1 no final do endereço para ignorar o bloqueio
+  const MODO_TESTE = new URLSearchParams(location.search).has("teste");
 
   function marcarDownload(item) {
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
@@ -51,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function verificarConcluido() {
+    if (MODO_TESTE) return;
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     const todos = ITENS.every(i => dados[i]);
     if (todos) {
@@ -138,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Verificar se kit já foi concluído
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     const todos = ITENS.every(i => dados[i]);
-    if (todos) {
+    if (todos && !MODO_TESTE) {
       alert(T("alertBloq"));
       return;
     }
