@@ -414,11 +414,12 @@ document.addEventListener("DOMContentLoaded", () => {
       qr.onload = () => {
         // Tamanho do QR (fração da largura) e quanto sobe (fração da altura), por idioma
         const L = idioma();
-        const C = L === "pt" ? { t: 0.45, sobe: 0.055 }
-                : L === "es" ? { t: 0.45, sobe: 0.03 }
-                :              { t: 0.40, sobe: 0.045 };   // EN: menor e um pouco mais alto
+        // t = tamanho | sobe = quanto sobe | dx = quanto vai p/ a direita (frações)
+        const C = L === "pt" ? { t: 0.45,  sobe: 0.055, dx: 0 }
+                : L === "es" ? { t: 0.425, sobe: 0.03,  dx: 0 }       // ES: um pouco menor
+                :              { t: 0.40,  sobe: 0.045, dx: 0.02 };   // EN: menor, mais alto e p/ a direita
         const tamanho = canvas.width * C.t;
-        const x = (canvas.width - tamanho) / 2;
+        const x = (canvas.width - tamanho) / 2 + canvas.width * C.dx;
         const y = (canvas.height - tamanho) / 2 - canvas.height * C.sobe;
         ctx.fillStyle = "#fff";
         ctx.fillRect(x - 6, y - 6, tamanho + 12, tamanho + 12);
@@ -474,7 +475,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const quadroW = canvas.width * M.w;
         const quadroH = canvas.height * M.h;
         // Ajuste extra só para EN: QR maior (escala) e mais alto (sobe)
-        const E = idioma() === "en" ? { escala: 1.3, sobe: 0.02 } : { escala: 1, sobe: 0 };
+        const Li = idioma();
+        const E = Li === "en" ? { escala: 1.3,  sobe: 0.02 }
+                : Li === "es" ? { escala: 1.15, sobe: 0 }      // ES: QR maior
+                :               { escala: 1,    sobe: 0 };
         const tamanho = Math.min(quadroW, quadroH) * 0.92 * E.escala;
         const x = quadroX + (quadroW - tamanho) / 2;
         const y = quadroY + (quadroH - tamanho) / 2 - canvas.height * E.sobe;
