@@ -43,6 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const ITENS = ["qr","certificado","certificadoOficial","selo","qrAzul","adesivo"];
   const CHAVE = "qrzap_kit_concluido";
 
+  // 🧪 MODO TESTE TEMPORÁRIO — trava desligada pra você testar.
+  // ATENÇÃO: lembrar de tirar essa linha antes de deixar publicado de vez.
+  const TRAVA_DESLIGADA = true;
+
   function marcarDownload(item) {
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     dados[item] = true;
@@ -51,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function verificarConcluido() {
+    if (TRAVA_DESLIGADA) return;
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     const todos = ITENS.every(i => dados[i]);
     if (todos) {
@@ -138,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Verificar se kit já foi concluído
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     const todos = ITENS.every(i => dados[i]);
-    if (todos) {
+    if (todos && !TRAVA_DESLIGADA) {
       alert(T("alertBloq"));
       return;
     }
@@ -231,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const L = idioma();
     if (L === "pt") { img.src = nome + ".png" + query; return; }
     const arquivo = (BASES[nome] && BASES[nome][L]) || (nome + "-" + L + ".png");
-    // ?v=... evita que o navegador/GitHub Pages sirva imagem em cache
     const q = query || ("?v=" + Date.now());
     img.onerror = () => {
       img.onerror = null;
@@ -242,9 +246,8 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = arquivo + q;
   }
 
-  // Redesenha tudo que já foi gerado, usando as imagens do idioma atual
   function regerarImagens() {
-    if (!ultimoKit) return;            // ainda não gerou o kit
+    if (!ultimoKit) return;
     const k = ultimoKit;
     gerarCertificado(k.empresa);
     gerarCertificadoOficial(k.empresa, k.cnpj, k.data, k.serial);
@@ -253,15 +256,13 @@ document.addEventListener("DOMContentLoaded", () => {
     gerarAdesivo();
   }
 
-  // Posição do quadradinho tracejado do logo (frações da largura/altura da imagem)
-  const POS_QR_CERT_SIMPLES = { cx: 0.3645, cy: 0.1156, fundo: 0.074, lado: 0.064 };  // certificado simples
-  const POS_QR_CERT_OFICIAL = { cx: 0.1217, cy: 0.138,  fundo: 0.076, lado: 0.068 };  // certificado oficial
+  const POS_QR_CERT_SIMPLES = { cx: 0.3645, cy: 0.1156, fundo: 0.074, lado: 0.064 };
+  const POS_QR_CERT_OFICIAL = { cx: 0.1217, cy: 0.138,  fundo: 0.076, lado: 0.068 };
 
-  // Coloca o QR Code no quadradinho tracejado do logo do certificado
   function colocarQrNoCertificado(canvas, pos, tentativa) {
     tentativa = tentativa || 0;
     const qrData = getQrDataUrl();
-    if (!qrData) {                       // o QR pode ainda estar sendo desenhado
+    if (!qrData) {
       if (tentativa < 6) setTimeout(() => colocarQrNoCertificado(canvas, pos, tentativa + 1), 500);
       return;
     }
@@ -270,8 +271,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const ctx = canvas.getContext("2d");
       const W = canvas.width, H = canvas.height;
       const cx = W * pos.cx, cy = H * pos.cy;
-      const fundo = W * pos.fundo;             // fundo branco (cobre o tracejado)
-      const lado  = W * pos.lado;              // tamanho do QR
+      const fundo = W * pos.fundo;
+      const lado  = W * pos.lado;
       ctx.fillStyle = "#fff";
       ctx.fillRect(cx - fundo / 2, cy - fundo / 2, fundo, fundo);
       ctx.drawImage(qr, cx - lado / 2, cy - lado / 2, lado, lado);
@@ -316,15 +317,13 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
 
-      // ── EN / ES: posições medidas na imagem 1824x1200 (em frações, valem p/ qualquer tamanho)
       if (idioma() !== "pt") {
         const W = canvas.width, H = canvas.height;
-        const k = W / 1824;                       // escala das fontes
+        const k = W / 1824;
         const azul = "#0a2a4a";
 
-        // Nome da empresa: sobre a linha (linha em y≈477), sem encostar no título
         ctx.fillStyle = "#fff";
-        ctx.fillRect(W * 0.15, H * 0.350, W * 0.70, H * 0.040);   // y 420–468
+        ctx.fillRect(W * 0.15, H * 0.350, W * 0.70, H * 0.040);
         ctx.fillStyle = azul;
         ctx.textAlign = "center";
         ctx.textBaseline = "alphabetic";
@@ -334,20 +333,18 @@ document.addEventListener("DOMContentLoaded", () => {
           tam -= 1;
           ctx.font = `bold ${tam}px Arial`;
         }
-        ctx.fillText(empresa, W * 0.5, H * 0.388);                // baseline y≈466
+        ctx.fillText(empresa, W * 0.5, H * 0.388);
 
-        // Data e CNPJ: sobre as linhas "Fecha de adhesión" / "ID de empresa" (linhas em y≈853)
         ctx.fillStyle = "#000";
         ctx.font = `bold ${26 * k}px Arial`;
-        ctx.fillText(data, W * 0.265, H * 0.7025);                // centro da linha da data
+        ctx.fillText(data, W * 0.265, H * 0.7025);
         ctx.font = `bold ${24 * k}px Arial`;
-        ctx.fillText(cnpj, W * 0.55, H * 0.7025);                 // à direita do ícone do prédio
+        ctx.fillText(cnpj, W * 0.55, H * 0.7025);
 
-        // Código do documento: continua o "CT-" do quadro
         ctx.fillStyle = "#1A2340";
         ctx.textAlign = "left";
         ctx.font = `bold ${28 * k}px Arial`;
-        const x001 = W * 0.7752;                                  // logo após "CT-"
+        const x001 = W * 0.7752;
         const yCod = H * 0.821;
         ctx.fillText("001", x001, yCod);
         const larg001 = ctx.measureText("001").width;
@@ -413,12 +410,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!qrData) return;
       const qr = new Image();
       qr.onload = () => {
-        // Tamanho do QR (fração da largura) e quanto sobe (fração da altura), por idioma
         const L = idioma();
-        // t = tamanho | sobe = quanto sobe | dx = quanto vai p/ a direita (frações)
         const C = L === "pt" ? { t: 0.45,  sobe: 0.055, dx: 0 }
-                : L === "es" ? { t: 0.425, sobe: 0.03,  dx: 0 }       // ES: um pouco menor
-                :              { t: 0.40,  sobe: 0.045, dx: 0.02 };   // EN: menor, mais alto e p/ a direita
+                : L === "es" ? { t: 0.425, sobe: 0.03,  dx: 0 }
+                :              { t: 0.40,  sobe: 0.045, dx: 0.02 };
         const tamanho = canvas.width * C.t;
         const x = (canvas.width - tamanho) / 2 + canvas.width * C.dx;
         const y = (canvas.height - tamanho) / 2 - canvas.height * C.sobe;
@@ -467,19 +462,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!qrData) return;
       const qr = new Image();
       qr.onload = () => {
-        // Posição da moldura tracejada do QR (fração da largura/altura da imagem)
         const Lm = idioma();
         const M = Lm === "pt" ? { x: 0.645, y: 0.060,  w: 0.324, h: 0.652 }
-                : Lm === "en" ? { x: 0.727, y: 0.0879, w: 0.227, h: 0.482 }   // EN (medido na imagem 2432x1024)
-                :               { x: 0.692, y: 0.157,  w: 0.278, h: 0.396 };  // ES
+                : Lm === "en" ? { x: 0.727, y: 0.0879, w: 0.227, h: 0.482 }
+                :               { x: 0.692, y: 0.157,  w: 0.278, h: 0.396 };
         const quadroX = canvas.width * M.x;
         const quadroY = canvas.height * M.y;
         const quadroW = canvas.width * M.w;
         const quadroH = canvas.height * M.h;
-        // Ajuste extra só para EN: QR maior (escala) e mais alto (sobe)
         const Li = idioma();
-        const E = Li === "en" ? { escala: 0.96, sobe: 0 }     // EN: centralizado, com margem branca p/ o QR ler
-                : Li === "es" ? { escala: 1.15, sobe: 0 }      // ES: QR maior
+        const E = Li === "en" ? { escala: 0.96, sobe: 0 }
+                : Li === "es" ? { escala: 1.15, sobe: 0 }
                 :               { escala: 1,    sobe: 0 };
         const tamanho = Math.min(quadroW, quadroH) * 0.92 * E.escala;
         const x = quadroX + (quadroW - tamanho) / 2;
