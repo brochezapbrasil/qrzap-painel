@@ -5,7 +5,7 @@
   var HTML_LANG={pt:"pt-BR",en:"en",es:"es"};
   var D={
     title:["QR ZAP - Painel","QR ZAP - Panel","QR ZAP - Panel"],
-    painelAdmin:["Painel Administrativo","Admin Panel","Panel Administrativo"],
+    painelAdmin:["Seu Kit Digital QR ZAP","Your QR ZAP Digital Kit","Su Kit Digital QR ZAP"],
     bemVindo:["🎉 Bem-vindo ao Kit Digital QR ZAP","🎉 Welcome to the QR ZAP Digital Kit","🎉 Bienvenido al Kit Digital QR ZAP"],
     bemVindoTxt:["Preencha os dados da empresa abaixo para personalizar seu Kit Digital QR ZAP. Após o preenchimento, os arquivos serão gerados automaticamente para download..","Fill in your company details below to personalize your QR ZAP Digital Kit. Once you finish, the files are generated automatically for download.","Complete los datos de su empresa a continuación para personalizar su Kit Digital QR ZAP. Una vez completados, los archivos se generan automáticamente para descargar."],
     item1:["✓ Certificado QR ZAP","✓ QR ZAP Certificate","✓ Certificado QR ZAP"],
@@ -13,7 +13,7 @@
     item3:["✓ Plaquinha QR Azul","✓ Blue QR Sign","✓ Placa QR Azul"],
     item4:["✓ Adesivo QR ZAP","✓ QR ZAP Sticker","✓ Adhesivo QR ZAP"],
     preencha:["⬇️ Preencha os dados abaixo para personalizar os arquivos.","⬇️ Fill in the details below to personalize the files.","⬇️ Complete los datos a continuación para personalizar los archivos."],
-    notaIdioma:["","Note: the generated files (certificate, seal, sign and sticker) are currently issued in Portuguese.","Nota: los archivos generados (certificado, sello, placa y adhesivo) se emiten actualmente en portugués."],
+    notaIdioma:["","",""],
     parabens:["🎉 Parabéns por adquirir o Kit Digital QR ZAP!","🎉 Congratulations on getting the QR ZAP Digital Kit!","🎉 ¡Felicitaciones por adquirir el Kit Digital QR ZAP!"],
     lema:["Comunicar é um direito. Incluir é uma escolha. Acolher é um compromisso.","Communicating is a right. Including is a choice. Welcoming is a commitment.","Comunicarse es un derecho. Incluir es una elección. Acoger es un compromiso."],
     dadosEmpresa:["Dados da Empresa","Company Details","Datos de la Empresa"],
@@ -23,7 +23,8 @@
     phCnpj:["00.000.000/0000-00","Tax ID number","Número de identificación fiscal"],
     lblData:["Data da Adesão","Date of Joining","Fecha de Adhesión"],
     lblWhats:["WhatsApp","WhatsApp","WhatsApp"],
-    hintWhats:["Com o código do país, só números. Ex.: 55 + DDD + número.","With the country code, digits only. E.g.: 1 + area code + number.","Con el código del país, solo números. Ej.: 34 + número."],
+    phWhats:["18999999999","15551234567","34612345678"],
+    hintWhats:["Só números, com DDD. Ex.: 18 99999-9999. O código do país (55) é adicionado automaticamente.","With the country code, digits only. E.g.: 1 + area code + number.","Con el código del país, solo números. Ej.: 34 + número."],
     lblMsg:["Mensagem de acolhimento","Welcome message","Mensaje de bienvenida"],
     msgPadrao:["Olá! Estou neste estabelecimento e prefiro me comunicar por mensagem. Por favor, responda por este chat para que possamos conversar. Obrigado(a)!","Hello! I'm at this establishment and I prefer to communicate by message. Please reply in this chat so we can talk. Thank you!","¡Hola! Estoy en este establecimiento y prefiero comunicarme por mensaje. Por favor, responda por este chat para que podamos conversar. ¡Gracias!"],
     btnGerar:["Gerar Kit","Generate Kit","Generar Kit"],
@@ -46,9 +47,10 @@
     alertBloq:["🔒 Seu Kit Digital já foi gerado.\nPara novo kit acesse: qrzap-falecomigo.com.br","🔒 Your Digital Kit has already been generated.\nFor a new kit, go to: qrzap-falecomigo.com.br","🔒 Su Kit Digital ya fue generado.\nPara un nuevo kit, acceda a: qrzap-falecomigo.com.br"],
     alertCampos:["Preencha todos os campos.","Please fill in all fields.","Complete todos los campos."],
     alertContador:["⚠️ Não foi possível atualizar o contador.\nO certificado será gerado sem número serial.","⚠️ The counter could not be updated.\nThe certificate will be generated without a serial number.","⚠️ No fue posible actualizar el contador.\nEl certificado se generará sin número de serie."],
+    alertWhats:["Confira o número do WhatsApp: use DDD + número (ex.: 18 99999-9999).","Please check the WhatsApp number: country code + area code + number, digits only.","Revise el número de WhatsApp: código del país + número, solo dígitos."],
     alertGereQR:["Gere o QR primeiro.","Generate the QR first.","Genere primero el QR."],
     avisoT1:["Seu Kit Digital já foi gerado e baixado.","Your Digital Kit has already been generated and downloaded.","Su Kit Digital ya fue generado y descargado."],
-    avisoT2:["Para gerar um novo kit, realize uma nova assinatura em:","To generate a new kit, subscribe again at:","Para generar un nuevo kit, realice una nueva suscripción en:"],
+    avisoT2:["Para gerar um novo kit, faça uma nova compra em:","To generate a new kit, make a new purchase at:","Para generar un nuevo kit, realice una nueva compra en:"],
     avisoT3:["Dúvidas? Entre em contato:","Questions? Contact us:","¿Dudas? Contáctenos:"]
   };
   var cur="pt", listeners=[];
@@ -85,15 +87,15 @@
     d.id="qrzap-lang";
     d.setAttribute("role","group");
     d.setAttribute("aria-label","Idioma / Language / Idioma");
-    d.style.cssText="position:fixed;right:12px;bottom:12px;z-index:9999;display:flex;gap:4px;background:#1A2340;border:2px solid #2DC653;border-radius:12px;padding:4px;font-family:system-ui,sans-serif";
+    d.style.cssText="display:inline-flex;gap:4px;margin-top:14px;background:#1A2340;border:2px solid #2DC653;border-radius:12px;padding:4px;font-family:system-ui,sans-serif";
     [["pt","PT"],["en","EN"],["es","ES"]].forEach(function(p){
       var b=document.createElement("button");
       b.type="button"; b.textContent=p[1]; b.setAttribute("data-l",p[0]);
-      b.style.cssText="border:0;border-radius:8px;padding:8px 12px;font-weight:800;font-size:15px;cursor:pointer;min-width:44px;min-height:40px";
+      b.style.cssText="width:auto;margin:0;border:0;border-radius:8px;padding:8px 12px;font-weight:800;font-size:15px;cursor:pointer;min-width:44px;min-height:40px";
       b.addEventListener("click",function(){ setLang(p[0]); });
       d.appendChild(b);
     });
-    document.body.appendChild(d);
+    (document.querySelector(".topo")||document.body).appendChild(d);
   }
 
   window.QRZAP_I18N={
