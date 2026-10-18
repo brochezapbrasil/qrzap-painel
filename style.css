@@ -74,6 +74,7 @@ button:hover{
 }
 
 #previewQR{
+    overflow:hidden;
     border:2px dashed #bbb;
     border-radius:10px;
     padding:30px;
@@ -84,6 +85,13 @@ button:hover{
     margin:20px auto;
     width:220px;
     min-height:220px;
+}
+
+#qrCode img{
+    width:220px;
+    height:220px;
+    display:block;
+    margin:0 auto;
 }
 
 #empresaPreview{
