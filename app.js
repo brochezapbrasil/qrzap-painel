@@ -43,10 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const ITENS = ["qr","certificado","certificadoOficial","selo","qrAzul","adesivo"];
   const CHAVE = "qrzap_kit_concluido";
 
-  // 🧪 MODO TESTE TEMPORÁRIO — trava desligada pra você testar.
-  // ATENÇÃO: lembrar de tirar essa linha antes de deixar publicado de vez.
-  const TRAVA_DESLIGADA = true;
-
   function marcarDownload(item) {
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     dados[item] = true;
@@ -55,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function verificarConcluido() {
-    if (TRAVA_DESLIGADA) return;
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     const todos = ITENS.every(i => dados[i]);
     if (todos) {
@@ -143,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Verificar se kit já foi concluído
     const dados = JSON.parse(localStorage.getItem(CHAVE) || "{}");
     const todos = ITENS.every(i => dados[i]);
-    if (todos && !TRAVA_DESLIGADA) {
+    if (todos) {
       alert(T("alertBloq"));
       return;
     }
@@ -152,11 +147,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const cnpj        = document.getElementById("cnpj")?.value.trim() || "";
     const dataRaw     = document.getElementById("dataAdesao")?.value || "";
     const whatsappRaw = document.getElementById("whatsapp")?.value.trim() || "";
-    const telefone    = whatsappRaw.replace(/\D/g, "");
+    let telefone      = whatsappRaw.replace(/\D/g, "").replace(/^0+/, "");
     const mensagem    = document.getElementById("mensagem")?.value.trim() || "";
 
     if (!empresa || !cnpj || !dataRaw || !telefone || !mensagem) {
       alert(T("alertCampos"));
+      return;
+    }
+
+    // Número de WhatsApp: no Brasil, se vier só DDD + número, acrescenta o 55 sozinho
+    if (idioma() === "pt") {
+      if (telefone.length === 10 || telefone.length === 11) telefone = "55" + telefone;
+      if (!/^55\d{10,11}$/.test(telefone)) {
+        alert(T("alertWhats"));
+        return;
+      }
+    } else if (telefone.length < 8 || telefone.length > 15) {
+      alert(T("alertWhats"));
       return;
     }
 
